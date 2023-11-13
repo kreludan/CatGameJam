@@ -19,6 +19,9 @@ public partial class InputManager : Node
 	private bool _rightClickPressed;
 	private bool _rightClickHeld;
 	private bool _rightClickReleased;
+	private bool _dodgePressed;
+	private bool _dodgeHeld;
+	private bool _dodgeReleased;
 	
 	private Vector2 _direction = Vector2.Zero;
 	private Vector2 _mousePosition = Vector2.Zero;
@@ -30,6 +33,7 @@ public partial class InputManager : Node
 	private static readonly StringName InteractString = new("interact");
 	private static readonly StringName LeftClickString = new("left_click");
 	private static readonly StringName RightClickString = new("right_click");
+	private static readonly StringName DodgeString = new("dodge");
 
 	public override void _Input(InputEvent @event)
 	{
@@ -64,6 +68,9 @@ public partial class InputManager : Node
 		_rightClickPressed = Input.IsActionJustPressed(RightClickString);
 		_rightClickHeld = Input.IsActionPressed(RightClickString);
 		_rightClickReleased = Input.IsActionJustReleased(RightClickString);
+		_dodgePressed = Input.IsActionJustPressed(DodgeString);
+		_dodgeHeld = Input.IsActionPressed(DodgeString);
+		_dodgeReleased = Input.IsActionJustReleased(DodgeString);
 	}
 
 	public Vector2 GetMousePosition()
@@ -114,6 +121,21 @@ public partial class InputManager : Node
 	public bool RightClickReleased()
 	{
 		return _rightClickReleased;
+	}
+	
+	public bool DodgePressed()
+	{
+		return _dodgePressed;
+	}
+	
+	public bool DodgeHeld()
+	{
+		return _dodgeHeld;
+	}
+
+	public bool DodgeReleased()
+	{
+		return _dodgeReleased;
 	}
 
 	public Vector2 GetMoveDirection()
