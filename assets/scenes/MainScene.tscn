@@ -1,3 +1,10 @@
-[gd_scene format=3 uid="uid://cw0fnft45v6j4"]
+[gd_scene load_steps=2 format=3 uid="uid://cw0fnft45v6j4"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" path="res://scripts/input/InputManager.cs" id="1_kaiqg"]
+
+[node name="Global" type="Node2D"]
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="InputManager" type="Node" parent="Managers"]
+script = ExtResource("1_kaiqg")
