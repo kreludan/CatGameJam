@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.1", "C#", "GL Compatibility")
 
 [autoload]
 
-InputManager="*res://scripts/input/InputManager.cs"
+InputManager="*res://scripts/core/input/InputManager.cs"
 
 [dotnet]
 
