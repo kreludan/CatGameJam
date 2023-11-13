@@ -3,7 +3,7 @@ using Godot;
 public partial class Health : Node
 {
 	[Signal]
-	public delegate void Death();
+	public delegate void DeathEventHandler();
 	private const int MaxLives = 9;
 	private int _currentLives = MaxLives;
 	private int _bonusLives;

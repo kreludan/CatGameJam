@@ -9,30 +9,30 @@ public partial class CharacterController : Node2D
     private static readonly Vector2 ScalePositive = new Vector2(1, 1);
     private static readonly Vector2 ScaleNegative = new Vector2(-1, 1);
 
-    public override void _Ready()
-    {
-        _inputManager = GetNode<InputManager>("/root/InputManager");
-    }
+	public override void _Ready()
+	{
+		_inputManager = GetNode<InputManager>("/root/InputManager");
+	}
 
-    public override void _Process(double delta)
-    {
-        HandleInput();
-        MoveCharacter();
-    }
+	public override void _Process(double delta)
+	{
+		HandleInput();
+		MoveCharacter();
+	}
 
-    private void HandleInput()
-    {
-        // Get the movement direction from the input manager
-        Vector2 moveDirection = _inputManager.GetMoveDirection();
-        // Calculate the velocity based on the move direction and speed
-        _velocity = moveDirection * _speed;
-        // ie: Check for interactions
-        if (_inputManager.InteractPressed())
-        {
-            // Handle interaction logic here
-            GD.Print("Interact Pressed");
-        }
-    }
+	private void HandleInput()
+	{
+		// Get the movement direction from the input manager
+		Vector2 moveDirection = _inputManager.GetMoveDirection();
+		// Calculate the velocity based on the move direction and speed
+		_velocity = moveDirection * _speed;
+		// ie: Check for interactions
+		if (_inputManager.InteractPressed())
+		{
+			// Handle interaction logic here
+			GD.Print("Interact Pressed");
+		}
+	}
 
     private void MoveCharacter()
     {
