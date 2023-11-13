@@ -13,6 +13,7 @@ script = ExtResource("1_kaiqg")
 
 [node name="Player" type="Node2D" parent="."]
 script = ExtResource("2_xmrj3")
+_speed = 500.0
 
 [node name="Sprite" type="Sprite2D" parent="Player"]
 texture = ExtResource("3_l4ayw")

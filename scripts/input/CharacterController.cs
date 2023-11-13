@@ -4,8 +4,10 @@ public partial class CharacterController : Node2D
 {
     private InputManager _inputManager;
     private Vector2 _velocity = Vector2.Zero;
-    [Export(PropertyHint.None)]
+    [Export]
     private float _speed;
+    private static readonly Vector2 ScalePositive = new Vector2(1, 1);
+    private static readonly Vector2 ScaleNegative = new Vector2(-1, 1);
 
     public override void _Ready()
     {
@@ -36,5 +38,11 @@ public partial class CharacterController : Node2D
     {
         // Move the character based on the calculated velocity
         Position += _velocity * (float)GetProcessDeltaTime();
+        // Flip the character horizontally based on the move direction
+        if (_velocity.X != 0)
+        {
+            // If moving right, set scale.x to positive; if moving left, set scale.x to negative
+            Scale = _velocity.X < 0 ? ScalePositive : ScaleNegative;
+        }
     }
 }
