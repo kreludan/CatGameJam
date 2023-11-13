@@ -129,11 +129,11 @@ public partial class InputManager : Node
 		}
 		if (_movingUp)
 		{
-			_direction.Y += 1.0f;
+			_direction.Y -= 1.0f;
 		}
 		else if (_movingDown)
 		{
-			_direction.Y -= 1.0f;
+			_direction.Y += 1.0f;
 		}
 		return _direction;
 	}
