@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfcy63k1cb84y"]
+
+[ext_resource type="Script" path="res://scripts/core/input/InputManager.cs" id="1_bkv3v"]
+[ext_resource type="Texture2D" uid="uid://d0duqhbak6ek2" path="res://assets/sprites/espurr.png" id="2_rkvjr"]
+[ext_resource type="Script" path="res://scripts/core/character/Health.cs" id="3_raq6f"]
+[ext_resource type="Script" path="res://scripts/core/weaponry/GunController.cs" id="4_v6i0v"]
+[ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="4_vdeke"]
+[ext_resource type="Texture2D" uid="uid://crswnb1js5752" path="res://assets/sprites/shotgun.png" id="5_d6fei"]
+
+[node name="Global" type="Node2D"]
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="InputManager" type="Node" parent="Managers"]
+script = ExtResource("1_bkv3v")
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(240, 338)
+script = ExtResource("4_vdeke")
+_speed = 500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("2_rkvjr")
+
+[node name="Health" type="Node" parent="Player"]
+script = ExtResource("3_raq6f")
+
+[node name="Gun" type="Node2D" parent="." node_paths=PackedStringArray("owner")]
+position = Vector2(287, 460)
+script = ExtResource("4_v6i0v")
+owner = NodePath("../Player")
+
+[node name="Sprite2D" type="Sprite2D" parent="Gun"]
+texture = ExtResource("5_d6fei")

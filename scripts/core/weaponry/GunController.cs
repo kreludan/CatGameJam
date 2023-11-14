@@ -19,8 +19,7 @@ public partial class GunController : Node2D
 	public override void _Process(double delta)
 	{
 		Vector2 playerToMouse = (_inputManager.GetMousePosition() - owner.Position).Normalized();
-		Position = playerToMouse * ownerDistanceConstant;
-
-
+		Position = owner.Position + (playerToMouse * ownerDistanceConstant);
+		Rotation = new Vector2(1, 0).AngleTo(playerToMouse);
 	}
 }
