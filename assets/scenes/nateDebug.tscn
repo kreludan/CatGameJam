@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxf8bx7gsaos"]
+
+[ext_resource type="PackedScene" uid="uid://bbkvrek5i3f1e" path="res://assets/scenes/player.tscn" id="1_33dvb"]
+[ext_resource type="PackedScene" uid="uid://dfdhwwx35rj7o" path="res://assets/scenes/gun.tscn" id="2_rnv3w"]
+[ext_resource type="PackedScene" uid="uid://bjyeir3pavfcf" path="res://assets/scenes/base_bullet.tscn" id="3_osjcl"]
+
+[node name="NateDebug" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_33dvb")]
+
+[node name="Gun" parent="." node_paths=PackedStringArray("owner") instance=ExtResource("2_rnv3w")]
+position = Vector2(419, 479)
+owner = NodePath("../Player")
+ownerDistanceConstant = 300.0
+
+[node name="BaseBullet" parent="." instance=ExtResource("3_osjcl")]

@@ -1,12 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfcy63k1cb84y"]
+[gd_scene load_steps=4 format=3 uid="uid://dfcy63k1cb84y"]
 
 [ext_resource type="Script" path="res://scripts/core/input/InputManager.cs" id="1_bkv3v"]
 [ext_resource type="PackedScene" uid="uid://bbkvrek5i3f1e" path="res://assets/scenes/player.tscn" id="2_dnnbe"]
-[ext_resource type="Script" path="res://scripts/core/weaponry/BaseBullet.cs" id="3_u812x"]
-[ext_resource type="Texture2D" uid="uid://w61eybky1v36" path="res://assets/sprites/bulletTemp.png" id="4_bcdli"]
 [ext_resource type="PackedScene" uid="uid://dfdhwwx35rj7o" path="res://assets/scenes/gun.tscn" id="5_uap22"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_tfxwk"]
 
 [node name="Global" type="Node2D"]
 
@@ -16,17 +12,5 @@
 script = ExtResource("1_bkv3v")
 
 [node name="Player" parent="." instance=ExtResource("2_dnnbe")]
-
-[node name="BaseBullet" type="Area2D" parent="."]
-position = Vector2(287, 460)
-script = ExtResource("3_u812x")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BaseBullet"]
-shape = SubResource("CircleShape2D_tfxwk")
-
-[node name="Sprite2D" type="Sprite2D" parent="BaseBullet"]
-position = Vector2(295, 0)
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("4_bcdli")
 
 [node name="Gun" parent="." instance=ExtResource("5_uap22")]
