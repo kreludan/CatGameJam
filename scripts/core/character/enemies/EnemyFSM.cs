@@ -15,11 +15,11 @@ public partial class EnemyFSM : CharacterBody2D
     private Health _health;
     protected CharacterController Player;
     private static readonly StringName PlayerString = new("Player");
-    
+
     public override void _Ready()
     {
-        TransitionToState(EnemyState.Idle);
-        //Player = GetNode<CharacterController>("/root/Player");
+        // Determine whether to transition to Idle or Patrol state with a 50/50 chance
+        TransitionToState(GD.Randf() < 0.5f ? EnemyState.Idle : EnemyState.Patrol);
         Player = (CharacterController)GetTree().GetNodesInGroup(PlayerString)[0];
         _health = GetNode<Health>("Health");
         // Connect the Death signal to the Die method
@@ -117,7 +117,6 @@ public partial class EnemyFSM : CharacterBody2D
 
     public void _on_collision_detection_area_entered(Area2D area)
     {
-        GD.Print("Collide");
         if (area.IsInGroup("PlayerBullet"))
         {
             BaseBullet bulletNode = (BaseBullet)area;

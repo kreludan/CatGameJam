@@ -252,5 +252,9 @@ _ownerDistanceConstant = 50.0
 _secondsIntervalBetweenBullets = 0.35
 
 [node name="Bat" parent="." instance=ExtResource("4_fk8bx")]
+position = Vector2(909, 338)
+
+[node name="Bat2" parent="." instance=ExtResource("4_fk8bx")]
+position = Vector2(394, 74)
 
 [node name="PlayerBulletPool" type="Node2D" parent="." groups=["PlayerBulletPool"]]
