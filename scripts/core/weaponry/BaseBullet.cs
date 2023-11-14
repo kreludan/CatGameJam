@@ -21,7 +21,23 @@ public partial class BaseBullet : Area2D
     //collision
     public void _on_area_entered(Area2D area)
     {
+        if (area.IsInGroup("Player") || area.IsInGroup("Gun"))
+        {
+            return;
+        }
         GD.Print("Collide");
-        QueueFree();
+        DeactivateBullet();
+    }
+
+    public void DeactivateBullet()
+    {
+        Visible = false;
+        SetProcess(false);
+    }
+    
+    public void ActivateBullet()
+    {
+        Visible = true;
+        SetProcess(true);
     }
 }
