@@ -1,13 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bkdoki6igshqe"]
+[gd_scene load_steps=4 format=3 uid="uid://cxf8bx7gsaos"]
 
-[ext_resource type="PackedScene" uid="uid://3b6uju1n7jev" path="res://assets/scenes/player.tscn" id="1_33dvb"]
-[ext_resource type="PackedScene" path="res://assets/scenes/gun.tscn" id="2_rnv3w"]
-[ext_resource type="PackedScene" uid="uid://iwunujfuitxw" path="res://assets/scenes/base_bullet.tscn" id="3_osjcl"]
-[ext_resource type="Script" path="res://scripts/core/character/enemies/Bat.cs" id="4_ikv2y"]
-[ext_resource type="Texture2D" uid="uid://cj05jrd1huath" path="res://assets/sprites/batTemp.png" id="5_t2yyg"]
-[ext_resource type="Script" path="res://scripts/core/character/Health.cs" id="6_13w1i"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7eafh"]
+[ext_resource type="PackedScene" uid="uid://bbkvrek5i3f1e" path="res://assets/scenes/player.tscn" id="1_33dvb"]
+[ext_resource type="PackedScene" uid="uid://dfdhwwx35rj7o" path="res://assets/scenes/gun.tscn" id="2_rnv3w"]
+[ext_resource type="PackedScene" uid="uid://dnpxckrgvu7am" path="res://assets/scenes/bat.tscn" id="4_fk8bx"]
 
 [node name="NateDebug" type="Node2D"]
 
@@ -15,28 +10,13 @@
 scale = Vector2(0.11, 0.11)
 _speed = 250.0
 
-[node name="Gun" parent="." node_paths=PackedStringArray("owner") groups=["PlayerGun"] instance=ExtResource("2_rnv3w")]
+[node name="Gun" parent="." node_paths=PackedStringArray("_owner") groups=["PlayerGun"] instance=ExtResource("2_rnv3w")]
 position = Vector2(263, 343)
 scale = Vector2(0.145, 0.145)
-owner = NodePath("../Player")
-ownerDistanceConstant = 50.0
+_owner = NodePath("../Player")
+_ownerDistanceConstant = 50.0
+_secondsIntervalBetweenBullets = 0.35
 
-[node name="BaseBullet" parent="." instance=ExtResource("3_osjcl")]
-
-[node name="Enemy" type="CharacterBody2D" parent="."]
-position = Vector2(810, 166)
-script = ExtResource("4_ikv2y")
-
-[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
-scale = Vector2(0.035, 0.035)
-texture = ExtResource("5_t2yyg")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
-rotation = 1.5708
-scale = Vector2(1.515, 2.205)
-shape = SubResource("CapsuleShape2D_7eafh")
-
-[node name="Health" type="Node" parent="Enemy"]
-script = ExtResource("6_13w1i")
+[node name="Bat" parent="." instance=ExtResource("4_fk8bx")]
 
 [node name="PlayerBulletPool" type="Node2D" parent="." groups=["PlayerBulletPool"]]

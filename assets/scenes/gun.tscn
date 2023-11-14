@@ -3,10 +3,16 @@
 [ext_resource type="Script" path="res://scripts/core/weaponry/GunController.cs" id="1_mv5lp"]
 [ext_resource type="Texture2D" uid="uid://crswnb1js5752" path="res://assets/sprites/shotgun.png" id="2_ybxxt"]
 
-[node name="Gun" type="Node2D" node_paths=PackedStringArray("owner")]
+[node name="Gun" type="Node2D"]
 position = Vector2(287, 460)
 script = ExtResource("1_mv5lp")
-owner = NodePath("")
+_secondsIntervalBetweenBullets = 0.3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ybxxt")
+
+[node name="BulletSpawnPoint" type="Node2D" parent="."]
+position = Vector2(269, -9)
+
+[node name="FireTimer" type="Timer" parent="."]
+wait_time = 0.024

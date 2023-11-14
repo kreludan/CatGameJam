@@ -37,7 +37,6 @@ public partial class EnemyFSM : CharacterBody2D
         _health.Death -= Die;
     }
 
-    // Function to update the current state
     private void UpdateState()
     {
         switch (_currentState)
@@ -95,8 +94,6 @@ public partial class EnemyFSM : CharacterBody2D
         GD.Print(_currentState);
     }
 
-    // Example methods for handling transitions (override these in derived classes)
-
     protected virtual void StartPatrol()
     {
         TransitionToState(EnemyState.Patrol);
@@ -115,5 +112,18 @@ public partial class EnemyFSM : CharacterBody2D
     protected virtual void Die()
     {
         TransitionToState(EnemyState.Dead);
+        QueueFree();
+    }
+
+    public void _on_collision_detection_area_entered(Area2D area)
+    {
+        GD.Print("Collide");
+        if (area.IsInGroup("PlayerBullet"))
+        {
+            BaseBullet bulletNode = (BaseBullet)area;
+            _health.TakeDamage(bulletNode.GetBulletDamage());
+            GD.Print("Do Damage: " + bulletNode.GetBulletDamage());
+        }
+        
     }
 }
