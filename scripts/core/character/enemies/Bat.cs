@@ -1,88 +1,60 @@
 using Godot;
 
-public partial class BatEnemy : EnemyFSM
+public partial class Bat : EnemyFSM
 {
-    // Adjust these values based on your game's requirements
-    private const float ChaseRange = 150f;
-    private const float AttackRange = 50f;
+	private const float ChaseRange = 250f;
+	private const float ChaseSpeed = 1.0f;
+	private const float RoughPathFactor = 0.8f; 
 
-    private CharacterController _player; // Assuming you have a Player class
-    
-    public override void _Ready()
-    {
-        _player = GetNode<CharacterController>("path_to_player_node");
-    }
-    
-    protected override void UpdateIdleState()
-    {
-        // Implement Bat idle behavior here
+	protected override void UpdateIdleState()
+	{
+		// Example: Start patrolling if the player is not in range
+		if (IsPlayerInRange(ChaseRange))
+		{
+			TransitionToState(EnemyState.Chase);
+		}
+	}
 
-        // Example: Start patrolling if the player is not in range
-        if (IsPlayerInRange(ChaseRange))
-        {
-            StartChase();
-        }
-    }
+	protected override void UpdatePatrolState()
+	{
+		// Example: Transition to idle if the player is out of range
+		if (!IsPlayerInRange(ChaseRange))
+		{
+			TransitionToState(EnemyState.Idle);
+		}
+		// Example: Start chasing if the player is within chase range
+		else if (IsPlayerInRange(ChaseRange))
+		{
+			TransitionToState(EnemyState.Chase);
+		}
+	}
 
-    protected override void UpdatePatrolState()
-    {
-        // Implement Bat patrol behavior here
+	protected override void UpdateChaseState()
+	{
+		if (!IsPlayerInRange(ChaseRange))
+		{
+			TransitionToState(EnemyState.Patrol);
+			return;
+		}
 
-        // Example: Transition to idle if the player is out of range
-        if (!IsPlayerInRange(ChaseRange))
-        {
-            TransitionToState(EnemyState.Idle);
-        }
-        // Example: Start chasing if the player is within chase range
-        else if (IsPlayerInRange(ChaseRange) && !IsPlayerInRange(AttackRange))
-        {
-            StartChase();
-        }
-        // Example: Start attacking if the player is within attack range
-        else if (IsPlayerInRange(AttackRange))
-        {
-            StartAttack();
-        }
-    }
+		// Move towards the player's position with a rougher path
+		Vector2 directionToPlayer = (Player.Position - Position).Normalized();
+		Vector2 roughPath = directionToPlayer.Rotated(Mathf.DegToRad(GD.RandRange(-45, 45))) * ChaseSpeed;
+		Position += roughPath * RoughPathFactor;
+		float rotation = Mathf.Atan2(directionToPlayer.Y, directionToPlayer.Y);
+		Rotation = rotation;
+	}
 
-    protected override void UpdateChaseState()
-    {
-        // Implement Bat chase behavior here
+	protected override void UpdateDeadState()
+	{
+		// Implement Bat dead behavior here
+	}
 
-        // Example: Start attacking if the player is within attack range during chase
-        if (IsPlayerInRange(AttackRange))
-        {
-            StartAttack();
-        }
-        // Example: Transition to patrol if the player is out of chase range
-        else if (!IsPlayerInRange(ChaseRange))
-        {
-            StartPatrol();
-        }
-    }
-
-    protected override void UpdateAttackState()
-    {
-        // Implement Bat attack behavior here
-
-        // Example: Transition to patrol after attacking
-        StartPatrol();
-    }
-
-    protected override void UpdateDeadState()
-    {
-        // Implement Bat dead behavior here
-    }
-
-    // Function to check if the player is within a certain range
-    private bool IsPlayerInRange(float range)
-    {
-        if (_player != null)
-        {
-            float distanceToPlayer = Position.DistanceTo(_player.Position);
-            return distanceToPlayer <= range;
-        }
-        return false;
-    }
-
+	private bool IsPlayerInRange(float range)
+	{
+		if (Player == null) return false;
+		
+		float distanceToPlayer = Position.DistanceTo(Player.Position);
+		return distanceToPlayer <= range;
+	}
 }

@@ -12,11 +12,29 @@ public partial class EnemyFSM : CharacterBody2D
     }
     
     private EnemyState _currentState = EnemyState.Idle;
+    private Health _health;
+    protected CharacterController Player;
+    private static readonly StringName PlayerString = new("Player");
+    
+    public override void _Ready()
+    {
+        TransitionToState(EnemyState.Idle);
+        //Player = GetNode<CharacterController>("/root/Player");
+        Player = (CharacterController)GetTree().GetNodesInGroup(PlayerString)[0];
+        _health = GetNode<Health>("Health");
+        // Connect the Death signal to the Die method
+        _health.Death += Die;
+    }
     
     public override void _Process(double delta)
     {
         // Update the current state
         UpdateState();
+    }
+
+    public override void _ExitTree()
+    {
+        _health.Death -= Die;
     }
 
     // Function to update the current state
@@ -74,6 +92,7 @@ public partial class EnemyFSM : CharacterBody2D
     protected virtual void TransitionToState(EnemyState newState)
     {
         _currentState = newState;
+        GD.Print(_currentState);
     }
 
     // Example methods for handling transitions (override these in derived classes)

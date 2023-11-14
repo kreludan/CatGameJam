@@ -13,6 +13,4 @@ script = ExtResource("1_bkv3v")
 
 [node name="Player" parent="." instance=ExtResource("2_dnnbe")]
 
-[node name="Gun" parent="." node_paths=PackedStringArray("owner") instance=ExtResource("5_uap22")]
-owner = NodePath("../Player")
-ownerDistanceConstant = 300.0
+[node name="Gun" parent="." instance=ExtResource("5_uap22")]

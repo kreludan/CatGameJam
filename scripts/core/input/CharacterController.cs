@@ -9,7 +9,7 @@ public partial class CharacterController : Node2D
     private static readonly Vector2 ScalePositive = new Vector2(1, 1);
     private static readonly Vector2 ScaleNegative = new Vector2(-1, 1);
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		_inputManager = GetNode<InputManager>("/root/InputManager");
 	}
@@ -42,7 +42,7 @@ public partial class CharacterController : Node2D
         if (_velocity.X != 0)
         {
             // If moving right, set scale.x to positive; if moving left, set scale.x to negative
-            Scale = _velocity.X < 0 ? ScalePositive : ScaleNegative;
+            //Scale = _velocity.X < 0 ?  ScalePositive : ScaleNegative;
         }
     }
 }
