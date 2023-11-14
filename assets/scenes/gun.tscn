@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfdhwwx35rj7o"]
+
+[ext_resource type="Script" path="res://scripts/core/weaponry/GunController.cs" id="1_mv5lp"]
+[ext_resource type="Texture2D" uid="uid://crswnb1js5752" path="res://assets/sprites/shotgun.png" id="2_ybxxt"]
+
+[node name="Gun" type="Node2D" node_paths=PackedStringArray("owner")]
+position = Vector2(287, 460)
+script = ExtResource("1_mv5lp")
+owner = NodePath("")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ybxxt")

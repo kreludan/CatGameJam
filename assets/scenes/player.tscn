@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbkvrek5i3f1e"]
+
+[ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5aupw"]
+[ext_resource type="Texture2D" uid="uid://d0duqhbak6ek2" path="res://assets/sprites/espurr.png" id="2_nvxky"]
+[ext_resource type="Script" path="res://scripts/core/character/Health.cs" id="3_36e80"]
+
+[node name="Player" type="Node2D"]
+position = Vector2(240, 338)
+script = ExtResource("1_5aupw")
+_speed = 500.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nvxky")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("3_36e80")

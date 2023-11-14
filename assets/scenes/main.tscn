@@ -1,11 +1,12 @@
 [gd_scene load_steps=7 format=3 uid="uid://dfcy63k1cb84y"]
 
 [ext_resource type="Script" path="res://scripts/core/input/InputManager.cs" id="1_bkv3v"]
-[ext_resource type="Texture2D" uid="uid://d0duqhbak6ek2" path="res://assets/sprites/espurr.png" id="2_rkvjr"]
-[ext_resource type="Script" path="res://scripts/core/character/Health.cs" id="3_raq6f"]
-[ext_resource type="Script" path="res://scripts/core/weaponry/GunController.cs" id="4_v6i0v"]
-[ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="4_vdeke"]
-[ext_resource type="Texture2D" uid="uid://crswnb1js5752" path="res://assets/sprites/shotgun.png" id="5_d6fei"]
+[ext_resource type="PackedScene" uid="uid://bbkvrek5i3f1e" path="res://assets/scenes/player.tscn" id="2_dnnbe"]
+[ext_resource type="Script" path="res://scripts/core/weaponry/BaseBullet.cs" id="3_u812x"]
+[ext_resource type="Texture2D" uid="uid://w61eybky1v36" path="res://assets/sprites/bulletTemp.png" id="4_bcdli"]
+[ext_resource type="PackedScene" uid="uid://dfdhwwx35rj7o" path="res://assets/scenes/gun.tscn" id="5_uap22"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tfxwk"]
 
 [node name="Global" type="Node2D"]
 
@@ -14,21 +15,18 @@
 [node name="InputManager" type="Node" parent="Managers"]
 script = ExtResource("1_bkv3v")
 
-[node name="Player" type="Node2D" parent="."]
-position = Vector2(240, 338)
-script = ExtResource("4_vdeke")
-_speed = 500.0
+[node name="Player" parent="." instance=ExtResource("2_dnnbe")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("2_rkvjr")
-
-[node name="Health" type="Node" parent="Player"]
-script = ExtResource("3_raq6f")
-
-[node name="Gun" type="Node2D" parent="." node_paths=PackedStringArray("owner")]
+[node name="BaseBullet" type="Area2D" parent="."]
 position = Vector2(287, 460)
-script = ExtResource("4_v6i0v")
-owner = NodePath("../Player")
+script = ExtResource("3_u812x")
 
-[node name="Sprite2D" type="Sprite2D" parent="Gun"]
-texture = ExtResource("5_d6fei")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BaseBullet"]
+shape = SubResource("CircleShape2D_tfxwk")
+
+[node name="Sprite2D" type="Sprite2D" parent="BaseBullet"]
+position = Vector2(295, 0)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("4_bcdli")
+
+[node name="Gun" parent="." instance=ExtResource("5_uap22")]
