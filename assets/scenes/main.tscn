@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfcy63k1cb84y"]
+[gd_scene load_steps=4 format=3 uid="uid://cm6ukkxkv1aex"]
 
 [ext_resource type="Script" path="res://scripts/core/input/InputManager.cs" id="1_bkv3v"]
-[ext_resource type="PackedScene" uid="uid://bbkvrek5i3f1e" path="res://assets/scenes/player.tscn" id="2_dnnbe"]
-[ext_resource type="PackedScene" uid="uid://dfdhwwx35rj7o" path="res://assets/scenes/gun.tscn" id="5_uap22"]
+[ext_resource type="PackedScene" uid="uid://3b6uju1n7jev" path="res://assets/scenes/player.tscn" id="2_dnnbe"]
+[ext_resource type="PackedScene" path="res://assets/scenes/gun.tscn" id="5_uap22"]
 
 [node name="Global" type="Node2D"]
 
