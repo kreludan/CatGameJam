@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class CharacterController : Node2D
+public partial class CharacterController : CharacterBody2D
 {
     private InputManager _inputManager;
     private Vector2 _velocity = Vector2.Zero;
@@ -17,7 +17,12 @@ public partial class CharacterController : Node2D
 	public override void _Process(double delta)
 	{
 		HandleInput();
-		MoveCharacter();
+		//MoveCharacter();
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		MoveAndSlide();
 	}
 
 	private void HandleInput()
@@ -25,17 +30,18 @@ public partial class CharacterController : Node2D
 		// Get the movement direction from the input manager
 		Vector2 moveDirection = _inputManager.GetMoveDirection();
 		// Calculate the velocity based on the move direction and speed
-		_velocity = moveDirection * _speed;
+		Velocity = moveDirection * _speed;
 		// ie: Check for interactions
-		if (_inputManager.InteractPressed())
-		{
-			// Handle interaction logic here
-			GD.Print("Interact Pressed");
-		}
+		// if (_inputManager.InteractPressed())
+		// {
+		// 	// Handle interaction logic here
+		// 	GD.Print("Interact Pressed");
+		// }
 	}
 
     private void MoveCharacter()
     {
+	    //MoveAndSlide(_velocity);
         // Move the character based on the calculated velocity
         Position += _velocity * (float)GetProcessDeltaTime();
         // Flip the character horizontally based on the move direction
