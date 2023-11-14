@@ -21,7 +21,7 @@ public partial class BaseBullet : Area2D
     //collision
     public void _on_area_entered(Area2D area)
     {
-        if (area.IsInGroup("Player") || area.IsInGroup("Gun"))
+        if (area.IsInGroup("Player") || area.IsInGroup("PlayerGun"))
         {
             return;
         }
