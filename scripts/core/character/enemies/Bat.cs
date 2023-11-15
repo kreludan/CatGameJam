@@ -2,9 +2,9 @@ using Godot;
 
 public partial class Bat : EnemyFSM
 {
-	private const float PatrolSpeed = 1f;
+	private const float PatrolSpeed = 200f;
 	private const float ChaseRange = 350f;
-	private const float ChaseSpeed = 1f;
+	private const float ChaseSpeed = 200f;
 	private int _chaseChangeFrequency = 100;
 	private Vector2 _currentChaseDirection;
 	private int _chaseFrameCounter;
@@ -20,6 +20,10 @@ public partial class Bat : EnemyFSM
 
 	protected override void UpdateIdleState()
 	{
+		if (Velocity != Vector2.Zero)
+		{
+			Velocity = Vector2.Zero;
+		}
 		if (IsPlayerInRange(ChaseRange))
 		{
 			TransitionToState(EnemyState.Chase);
@@ -57,19 +61,23 @@ public partial class Bat : EnemyFSM
 		{
 			_currentDirection = new Vector2(GD.RandRange(-1, 1), GD.RandRange(-1, 1)).Normalized();
 		}
-		Position += _currentDirection * PatrolSpeed;
+		//Position += _currentDirection * PatrolSpeed;
+		Velocity = _currentDirection * PatrolSpeed;
 		// Check if the player is in range
 		if (IsPlayerInRange(ChaseRange))
 		{
 			TransitionToState(EnemyState.Chase);
 			return;
 		}
-		// Check if the enemy is within the patrol area
-		if (!IsWithinPatrolArea(GlobalPosition))
-		{
-			// Reverse direction if the enemy goes outside the patrol area
-			_currentDirection = -_currentDirection;
-		}
+		// // Check if the enemy is within the patrol area
+		// if (!IsWithinPatrolArea(Position))
+		// {
+		// 	// Calculate the direction vector towards the player
+		// 	Vector2 playerDirection = (Player.Position - Position).Normalized();
+		// 	// Set the velocity to move towards the player
+		// 	Velocity = playerDirection * PatrolSpeed;
+		// 	GD.Print("Velocity: " + Velocity);
+		// }
 	}
 
 	// Check if the position is within the specified patrol area
@@ -78,7 +86,7 @@ public partial class Bat : EnemyFSM
 		// Adjust these values based on your patrol area and screen size
 		float minX = 200f;
 		float maxX = 1000f;
-		float minY = 40f;
+		float minY = 100f;
 		float maxY = 400f;
 		// Check if the new position is within the patrol area
 		return position.X > minX && position.X < maxX && position.Y > minY && position.Y < maxY;
@@ -88,16 +96,17 @@ public partial class Bat : EnemyFSM
 	{
 		if (!IsPlayerInRange(ChaseRange))
 		{
-			GD.Print("Within range");
+			//GD.Print("Within range");
 			TransitionToState(EnemyState.Patrol);
 			return;
 		}
 		if (_chaseFrameCounter % _chaseChangeFrequency == 0)
 		{
 			_currentChaseDirection = (Player.Position - Position).Normalized().Rotated(GetRandomAngle());
-			GD.Print("New direction: " + _currentChaseDirection);
+			//GD.Print("New direction: " + _currentChaseDirection);
 		}
-		Position += _currentChaseDirection * ChaseSpeed;
+		//Position += _currentChaseDirection * ChaseSpeed;
+		Velocity = _currentChaseDirection * ChaseSpeed;
 		_chaseFrameCounter = (_chaseFrameCounter + 1) % _chaseChangeFrequency;
 	}
 

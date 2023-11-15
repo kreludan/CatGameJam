@@ -1,13 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2n1qkqeohhrp"]
+[gd_scene load_steps=2 format=3 uid="uid://b2n1qkqeohhrp"]
 
 [ext_resource type="PackedScene" uid="uid://bbkvrek5i3f1e" path="res://assets/scenes/player.tscn" id="1_fx4r2"]
-[ext_resource type="PackedScene" uid="uid://dfdhwwx35rj7o" path="res://assets/scenes/gun.tscn" id="2_iqkov"]
 
 [node name="debug" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_fx4r2")]
-
-[node name="Gun" parent="." node_paths=PackedStringArray("owner") instance=ExtResource("2_iqkov")]
-position = Vector2(419, 479)
-owner = NodePath("../Player")
-ownerDistanceConstant = 300.0

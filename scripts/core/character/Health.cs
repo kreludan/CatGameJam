@@ -1,21 +1,41 @@
 using Godot;
 
-public partial class Health : Node
+public partial class Health : Node2D
 {
+    [Export]
+    public Owner CurrentOwner { get; private set; }
     [Signal]
     public delegate void DeathEventHandler();
-    private const int MaxLives = 9;
-    private int _currentLives = MaxLives;
+    [Signal]
+    public delegate void OnTakeDamageEventHandler();
+    [Export]
+    private int _maxLives = 9;
+    private int _currentLives;
     private int _bonusLives;
+
+    public override void _Process(double delta)
+    {
+        if (_currentLives <= 0)
+        {
+            Owner.QueueFree();
+        }
+    }
+
+    public override void _Ready()
+    {
+        _currentLives = _maxLives;
+    }
 
     public void TakeDamage(int damage)
     {
         _currentLives -= damage;
+        GD.Print(_currentLives);
         if (_currentLives <= 0)
         {
             // Trigger the death event when lives reach zero
             EmitSignal("Death");
         }
+        EmitSignal(SignalName.OnTakeDamage);
     }
 	
     public void AddBonusLife(int bonus)
@@ -30,7 +50,7 @@ public partial class Health : Node
 
     public void GainLife(int livesToAdd)
     {
-        _currentLives = Mathf.Min(_currentLives + livesToAdd, MaxLives);
+        _currentLives = Mathf.Min(_currentLives + livesToAdd, _maxLives);
     }
 
     public int GetCurrentLives()

@@ -1,36 +1,62 @@
 using Godot;
 
-public partial class BaseBullet : Area2D
+public enum Owner { Player, Enemy }
+
+public partial class BaseBullet : CharacterBody2D
 {
     [Export]
     protected int Damage = 1;
     [Export]
-    protected float Speed = 300;
+    protected Owner CurrentOwner;
+    [Export]
+    protected bool CanCollideWithSelf;
+    [Export]
+    protected float Speed = 600;
     protected Vector2 Direction = Vector2.Zero;
     public GunController Gun { get; set; }
+    private int _collisionCount;
+    private int _maxCollisions = 1;
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        Translate(Direction * Speed * (float)delta);
+        HandleCollision(delta);
     }
 
-    public virtual void SetDirection(Vector2 direction)
+    private void HandleCollision(double delta)
     {
-        Direction = direction.Normalized();
-    }
+        KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
 
-    //collision
-    public void _on_area_entered(Area2D area)
-    {
-        if (area.IsInGroup("Player") || area.IsInGroup("PlayerGun") || area.IsInGroup("PlayerBullet"))
+        if (collision?.GetCollider() is not Node2D collidedObject) return;
+        if (_collisionCount >= _maxCollisions) return;
+        
+        _collisionCount++;
+        // Check if the "Health" child node exists
+        Node healthNode = collidedObject.GetNodeOrNull("Health");
+        if (healthNode is Health health)
         {
-            return;
+            if (health.CurrentOwner == CurrentOwner && !CanCollideWithSelf) return;
+
+            // Apply damage to the health node
+            health.TakeDamage(Damage);
         }
         DeactivateBullet();
     }
 
+    public virtual void SetDirection(Vector2 direction)
+    {
+        _collisionCount = 0;
+        Direction = direction.Normalized();
+        Velocity = Direction * Speed;
+    }
+
+    public virtual void SetOwner(Owner owner)
+    {
+        CurrentOwner = owner;
+    }
+
     public void DeactivateBullet()
     {
+        //GD.Print("Deactivate");
         Hide();
         SetProcess(false);
     }

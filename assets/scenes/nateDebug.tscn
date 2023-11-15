@@ -694,6 +694,7 @@ texture = ExtResource("4_3pr5i")
 
 [sub_resource type="TileSet" id="TileSet_3vamo"]
 physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 536870912
 sources/0 = SubResource("TileSetAtlasSource_vr20k")
 
 [node name="NateDebug" type="Node2D"]
@@ -717,9 +718,6 @@ _ownerDistanceConstant = 50.0
 _secondsIntervalBetweenBullets = 0.35
 
 [node name="Bat" parent="." instance=ExtResource("4_fk8bx")]
-position = Vector2(909, 338)
-
-[node name="Bat2" parent="." instance=ExtResource("4_fk8bx")]
-position = Vector2(394, 74)
+position = Vector2(634, 204)
 
 [node name="PlayerBulletPool" type="Node2D" parent="." groups=["PlayerBulletPool"]]

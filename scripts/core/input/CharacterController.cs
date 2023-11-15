@@ -8,6 +8,11 @@ public partial class CharacterController : CharacterBody2D
     private float _speed;
     private static readonly Vector2 ScalePositive = new Vector2(1, 1);
     private static readonly Vector2 ScaleNegative = new Vector2(-1, 1);
+    private int _collisionCount;
+    private int _maxCollisions = 1;
+
+    private int invulFrames = 150;
+    private double invulTimer;
 
     public override void _Ready()
 	{
@@ -17,38 +22,61 @@ public partial class CharacterController : CharacterBody2D
 	public override void _Process(double delta)
 	{
 		HandleInput();
-		//MoveCharacter();
+		HandleInvulTimer(delta);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		MoveAndSlide();
+		HandleCollision(delta);
+	}
+
+	private void HandleCollision(double delta)
+	{
+		KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
+		//
+		// if (collision?.GetCollider() is not Node2D collidedObject) return;
+		// // Check if the "Health" child node exists
+		// Node healthNode = collidedObject.GetNodeOrNull("Health");
+		// if (healthNode is Health health)
+		// {
+		// 	if (health.CurrentOwner == global::Owner.Player) return;
+		// 	if (_collisionCount >= _maxCollisions) return;
+		//
+		// 	_collisionCount++;
+		// 	
+		// 	
+		// }
+	}
+
+	public void _on_health_on_take_damage()
+	{
+		SetInvulnerable();
+	}
+
+	private void SetInvulnerable()
+	{
+		GD.Print("Set collision now");
+		SetCollisionLayerValue(2, false);
+		invulTimer = invulFrames;
 	}
 
 	private void HandleInput()
 	{
-		// Get the movement direction from the input manager
 		Vector2 moveDirection = _inputManager.GetMoveDirection();
-		// Calculate the velocity based on the move direction and speed
 		Velocity = moveDirection * _speed;
-		// ie: Check for interactions
-		// if (_inputManager.InteractPressed())
-		// {
-		// 	// Handle interaction logic here
-		// 	GD.Print("Interact Pressed");
-		// }
 	}
 
-    private void MoveCharacter()
-    {
-	    //MoveAndSlide(_velocity);
-        // Move the character based on the calculated velocity
-        Position += _velocity * (float)GetProcessDeltaTime();
-        // Flip the character horizontally based on the move direction
-        if (_velocity.X != 0)
-        {
-            // If moving right, set scale.x to positive; if moving left, set scale.x to negative
-            //Scale = _velocity.X < 0 ?  ScalePositive : ScaleNegative;
-        }
-    }
+	private void HandleInvulTimer(double delta)
+	{
+		if (invulTimer >= 0)
+		{
+			invulTimer -= delta * Engine.GetFramesPerSecond();
+			_collisionCount = 0;
+			GD.Print("timer: " + invulTimer);
+		}
+		else
+		{
+			SetCollisionLayerValue(2, true);
+		}
+	}
 }

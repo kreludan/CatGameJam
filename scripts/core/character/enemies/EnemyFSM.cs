@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using Godot;
 
 public partial class EnemyFSM : CharacterBody2D
@@ -15,6 +16,10 @@ public partial class EnemyFSM : CharacterBody2D
     private Health _health;
     protected CharacterController Player;
     private static readonly StringName PlayerString = new("Player");
+    private double _collisionInterval;
+    private double _collisionTimer = 50;
+    protected int Damage = 1;
+    private bool _didDamage;
 
     public override void _Ready()
     {
@@ -30,6 +35,35 @@ public partial class EnemyFSM : CharacterBody2D
     {
         // Update the current state
         UpdateState();
+        if (!_didDamage) return;
+
+        _collisionInterval -= delta * Engine.GetFramesPerSecond();
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        HandleCollision(delta);
+    }
+    
+    private void HandleCollision(double delta)
+    {
+        KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
+
+        if (collision?.GetCollider() is not CharacterBody2D collidedObject) return;
+        
+        // Check if the "Health" child node exists
+        Node healthNode = collidedObject.GetNodeOrNull("Health");
+        if (healthNode is Health health)
+        {
+            if (health.CurrentOwner == _health.CurrentOwner) return;
+            if (_collisionInterval > 0) return;
+            
+            _didDamage = true;
+            _collisionInterval = _collisionTimer;
+            GD.Print("Damage: " + Damage);
+            // Apply damage to the health node
+            health.TakeDamage(Damage);
+        }
     }
 
     public override void _ExitTree()
@@ -115,14 +149,14 @@ public partial class EnemyFSM : CharacterBody2D
         QueueFree();
     }
 
-    public void _on_collision_detection_area_entered(Area2D area)
-    {
-        if (area.IsInGroup("PlayerBullet"))
-        {
-            BaseBullet bulletNode = (BaseBullet)area;
-            _health.TakeDamage(bulletNode.GetBulletDamage());
-            GD.Print("Do Damage: " + bulletNode.GetBulletDamage());
-        }
-        
-    }
+    // public void _on_collision_detection_area_entered(Area2D area)
+    // {
+    //     if (area.IsInGroup("PlayerBullet"))
+    //     {
+    //         BaseBullet bulletNode = (BaseBullet)area;
+    //         _health.TakeDamage(bulletNode.GetBulletDamage());
+    //         GD.Print("Do Damage: " + bulletNode.GetBulletDamage());
+    //     }
+    //     
+    // }
 }
