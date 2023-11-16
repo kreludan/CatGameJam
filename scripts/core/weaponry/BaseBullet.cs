@@ -24,7 +24,7 @@ public partial class BaseBullet : Entity
         KinematicCollision2D collision = HandleCollision(delta);
         if (collision != null)
         {
-            DeactivateBullet();;
+            DeactivateBullet();
         }
     }
 
