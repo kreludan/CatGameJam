@@ -13,7 +13,7 @@ public partial class BaseBullet : CharacterBody2D
     [Export]
     protected float Speed = 600;
     protected Vector2 Direction = Vector2.Zero;
-    public GunController Gun { get; set; }
+    public PlayerGunController Gun { get; set; }
     private int _collisionCount;
     private int _maxCollisions = 1;
 
@@ -34,7 +34,7 @@ public partial class BaseBullet : CharacterBody2D
         Node healthNode = collidedObject.GetNodeOrNull("Health");
         if (healthNode is Health health)
         {
-            if (health.CurrentOwner == CurrentOwner && !CanCollideWithSelf) return;
+            // if (health.CurrentOwner == CurrentOwner && !CanCollideWithSelf) return;
 
             // Apply damage to the health node
             health.TakeDamage(Damage);

@@ -1,18 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://dfdhwwx35rj7o"]
+[gd_scene load_steps=4 format=3 uid="uid://blfrda1knghje"]
 
-[ext_resource type="Script" path="res://scripts/core/weaponry/GunController.cs" id="1_mv5lp"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Gun.cs" id="1_0prny"]
 [ext_resource type="Texture2D" uid="uid://crswnb1js5752" path="res://assets/sprites/shotgun.png" id="2_ybxxt"]
+[ext_resource type="Script" path="res://scripts/core/input/PlayerGunController.cs" id="3_7recb"]
 
 [node name="Gun" type="Node2D"]
-position = Vector2(287, 460)
-script = ExtResource("1_mv5lp")
-_secondsIntervalBetweenBullets = 0.3
+position = Vector2(192, 128)
+script = ExtResource("1_0prny")
+OwnerDistanceConstant = 100.0
+_fireRate = 0.35
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ybxxt")
 
 [node name="BulletSpawnPoint" type="Node2D" parent="."]
 position = Vector2(269, -9)
+
+[node name="PlayerGunController" type="Node2D" parent="."]
+script = ExtResource("3_7recb")
 
 [node name="FireTimer" type="Timer" parent="."]
 wait_time = 0.024

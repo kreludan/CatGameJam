@@ -2,17 +2,18 @@ using Godot;
 
 public partial class Health : Node2D
 {
-    [Export]
-    public Owner CurrentOwner { get; private set; }
-    [Signal]
-    public delegate void DeathEventHandler();
-    [Signal]
-    public delegate void OnTakeDamageEventHandler();
+
     [Export]
     private int _maxLives = 9;
     private int _currentLives;
     private int _bonusLives;
 
+    [Signal]
+    public delegate void DeathEventHandler();
+    [Signal]
+    public delegate void OnTakeDamageEventHandler();
+    
+    
     public override void _Process(double delta)
     {
         if (_currentLives <= 0)

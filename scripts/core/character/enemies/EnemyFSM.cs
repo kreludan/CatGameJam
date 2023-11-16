@@ -55,7 +55,7 @@ public partial class EnemyFSM : CharacterBody2D
         Node healthNode = collidedObject.GetNodeOrNull("Health");
         if (healthNode is Health health)
         {
-            if (health.CurrentOwner == _health.CurrentOwner) return;
+            //if (health.CurrentOwner == _health.CurrentOwner) return;
             if (_collisionInterval > 0) return;
             
             _didDamage = true;

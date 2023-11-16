@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://lghleh2af0vl"]
+
+[ext_resource type="Script" path="res://scripts/core/character/Character.cs" id="1_0ugx3"]
+[ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5eiy8"]
+[ext_resource type="Texture2D" uid="uid://d0duqhbak6ek2" path="res://assets/sprites/espurr.png" id="2_hc32q"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_0vif3"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/DamageTaker.cs" id="5_k1qmv"]
+[ext_resource type="PackedScene" uid="uid://blfrda1knghje" path="res://assets/scenes/gun.tscn" id="6_jbt05"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ijq5p"]
+
+[node name="Jeffrey" type="CharacterBody2D"]
+position = Vector2(240, 338)
+scale = Vector2(0.25, 0.25)
+collision_layer = 2
+script = ExtResource("1_0ugx3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hc32q")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 17)
+scale = Vector2(13.07, 13.07)
+shape = SubResource("CapsuleShape2D_ijq5p")
+
+[node name="Health" type="Node2D" parent="."]
+script = ExtResource("3_0vif3")
+
+[node name="CharacterController" type="Node2D" parent="."]
+script = ExtResource("1_5eiy8")
+_speed = 500.0
+
+[node name="DamageTaker" type="Node2D" parent="."]
+script = ExtResource("5_k1qmv")
+
+[node name="Gun" parent="." instance=ExtResource("6_jbt05")]
