@@ -1,11 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://lghleh2af0vl"]
+[gd_scene load_steps=9 format=3 uid="uid://lghleh2af0vl"]
 
-[ext_resource type="Script" path="res://scripts/core/character/Character.cs" id="1_0ugx3"]
 [ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5eiy8"]
+[ext_resource type="Script" path="res://scripts/core/character/Entity.cs" id="1_b5f2k"]
 [ext_resource type="Texture2D" uid="uid://d0duqhbak6ek2" path="res://assets/sprites/espurr.png" id="2_hc32q"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_0vif3"]
-[ext_resource type="Script" path="res://scripts/core/characterComponents/DamageTaker.cs" id="5_k1qmv"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_qnpga"]
 [ext_resource type="PackedScene" uid="uid://blfrda1knghje" path="res://assets/scenes/gun.tscn" id="6_jbt05"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="6_y4ge3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ijq5p"]
 
@@ -13,7 +14,7 @@
 position = Vector2(240, 338)
 scale = Vector2(0.25, 0.25)
 collision_layer = 2
-script = ExtResource("1_0ugx3")
+script = ExtResource("1_b5f2k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_hc32q")
@@ -27,11 +28,16 @@ shape = SubResource("CapsuleShape2D_ijq5p")
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_0vif3")
 
+[node name="Hitbox" type="Node2D" parent="."]
+script = ExtResource("4_qnpga")
+KnockbackIntensity = 1.0
+StatusEffect = 5
+
 [node name="CharacterController" type="Node2D" parent="."]
 script = ExtResource("1_5eiy8")
 _speed = 500.0
 
-[node name="DamageTaker" type="Node2D" parent="."]
-script = ExtResource("5_k1qmv")
+[node name="CollisionEffectHandler" type="Node2D" parent="."]
+script = ExtResource("6_y4ge3")
 
 [node name="Gun" parent="." instance=ExtResource("6_jbt05")]

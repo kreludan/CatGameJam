@@ -17,7 +17,7 @@ public partial class PlayerGunController : Node2D
 
 	public override void _Process(double delta)
 	{
-		Character character = _gun.Owner as Character;
+		Entity character = _gun.Owner as Entity;
 		//Debug.Print(character?.name);
 		if (character == null) return;
 		_gun.IsFiring = _inputManager.LeftClickHeld();

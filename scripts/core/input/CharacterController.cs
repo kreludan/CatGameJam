@@ -4,7 +4,7 @@ using Godot;
 public partial class CharacterController : Node2D
 {
 	private InputManager _inputManager;
-	private Character _character;
+	private Entity _entity;
 	private Vector2 _velocity = Vector2.Zero;
 	[Export]
 	private float _speed;
@@ -12,8 +12,8 @@ public partial class CharacterController : Node2D
 	public override void _Ready()
 	{
 		_inputManager = GetNode<InputManager>("/root/InputManager");
-		_character = Owner as Character;
-		if (_character == null)
+		_entity = Owner as Entity;
+		if (_entity == null)
 		{
 			Debug.Print("Owner is not a character!!!");
 		}
@@ -26,9 +26,9 @@ public partial class CharacterController : Node2D
 	
 	private void HandleInput()
 	{
-		if (_character == null) return;
+		if (_entity == null) return;
 		Vector2 moveDirection = _inputManager.GetMoveDirection();
-		_character.Velocity = moveDirection * _speed;
+		_entity.Velocity = moveDirection * _speed;
 	}
 
 }

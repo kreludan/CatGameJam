@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 
 
-public partial class Character : CharacterBody2D
+public partial class Entity : CharacterBody2D
 {
 	// Children:
 	// Damage Taker script
@@ -13,7 +13,7 @@ public partial class Character : CharacterBody2D
 	// Either a character controller or FSM script (handled by child class)
 	[Export] private GameplayConstants.CharacterType CharacterType;
 	public Health HealthReference { get; private set; }
-	public DamageTaker DamageTakerReference { get; private set; }
+	public CollisionEffectHandler CollisionEffectHandlerReference { get; private set; }
 	public Gun GunReference { get; private set; }
 	public Hitbox HitboxReference { get; private set; }
 	
@@ -28,10 +28,8 @@ public partial class Character : CharacterBody2D
 	public override void _Ready()
 	{
 		HealthReference = GetNode<Health>("Health");
-		DamageTakerReference = GetNode<DamageTaker>("DamageTaker");
-		
-		//GunReference = GetNode<Gun>("Gun");
-		//HitboxReference = GetNode<Hitbox>("Hitbox");
+		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
+		HitboxReference = GetNode<Hitbox>("Hitbox");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,18 +43,21 @@ public partial class Character : CharacterBody2D
 		HandleCollision(delta);
 	}
 
-	private void HandleCollision(double delta)
+	protected KinematicCollision2D HandleCollision(double delta)
 	{
 		KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
-		if (collision == null) return;
+
+		if (collision == null) return null;
 		if (collision.GetCollider().HasMethod(GameplayConstants.HandleCollisionString))
 		{
-			if (collision.GetCollider() is Character collidedObject)
+			if (collision.GetCollider() is Entity collidedObject)
 			{
 				Debug.Print("frank and jeffrey warring appropriately");
-				DamageTakerReference.HandleDamage(collidedObject.HitboxReference);
+				CollisionEffectHandlerReference.HandleCollision(collidedObject.HitboxReference);
 			}
 		}
+
+		return collision;
 	}
 	
 	

@@ -87,5 +87,6 @@ public partial class Gun : Node2D
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 		bullet.ActivateBullet();
 		bullet.SetDirection(BulletDirection.Normalized());
+		bullet.SetOwner(this);
 	}
 }

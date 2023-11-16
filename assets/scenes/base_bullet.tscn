@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://iwunujfuitxw"]
+[gd_scene load_steps=7 format=3 uid="uid://iwunujfuitxw"]
 
 [ext_resource type="Script" path="res://scripts/core/weaponry/BaseBullet.cs" id="1_6rrqh"]
 [ext_resource type="Texture2D" uid="uid://w61eybky1v36" path="res://assets/sprites/bulletTemp.png" id="2_dmyhr"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="3_sjol7"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="4_n1h20"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="5_mh1sa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kef6j"]
 
@@ -11,6 +14,7 @@ scale = Vector2(0.3, 0.3)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_6rrqh")
+_speed = 600.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, -1)
@@ -24,5 +28,17 @@ texture = ExtResource("2_dmyhr")
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-0.00012207, -0.833328)
 scale = Vector2(2.66666, 2.58333)
+
+[node name="CollisionEffectHandler" type="Node2D" parent="."]
+script = ExtResource("3_sjol7")
+
+[node name="Health" type="Node2D" parent="."]
+script = ExtResource("4_n1h20")
+_maxLives = 1
+
+[node name="Hitbox" type="Node2D" parent="."]
+script = ExtResource("5_mh1sa")
+Damage = 1
+KnockbackIntensity = 2.0
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnExitScreen"]

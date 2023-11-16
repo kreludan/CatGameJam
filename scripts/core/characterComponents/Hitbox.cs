@@ -1,15 +1,14 @@
 using Godot;
 using System;
 
-public partial class Hitbox : Node
+public partial class Hitbox : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+	[Export] public int Damage;
+	[Export] public float KnockbackIntensity;
+	[Export] public GameplayConstants.StatusEffect StatusEffect;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public Node2D GetOwner()
 	{
+		return Owner as Node2D;
 	}
 }
