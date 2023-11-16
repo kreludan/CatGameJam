@@ -2,23 +2,23 @@ using Godot;
 
 public partial class Health : Node2D
 {
-
     [Export]
     private int _maxLives = 9;
     private int _currentLives;
     private int _bonusLives;
-
     [Signal]
     public delegate void DeathEventHandler();
     [Signal]
     public delegate void OnTakeDamageEventHandler();
     
-    
     public override void _Process(double delta)
     {
         if (_currentLives <= 0)
         {
-            Owner.QueueFree();
+            //Owner.QueueFree();
+            Node2D ownerNode = Owner as Node2D;
+            ownerNode?.Hide();
+            ownerNode?.SetProcess(false);
         }
     }
 
@@ -30,7 +30,7 @@ public partial class Health : Node2D
     public void TakeDamage(int damage)
     {
         _currentLives -= damage;
-        GD.Print(_currentLives);
+        //GD.Print("Current health:" +  _currentLives + " " + Owner.Name);
         if (_currentLives <= 0)
         {
             // Trigger the death event when lives reach zero

@@ -132,6 +132,7 @@ public partial class Bat : EnemyFSM
 	private bool IsPlayerInRange(float range)
 	{
 		if (Player == null) return false;
+		if (!IsInstanceIdValid(Player.GetInstanceId())) return false;
 		
 		float distanceToPlayer = Position.DistanceTo(Player.Position);
 		return distanceToPlayer <= range;

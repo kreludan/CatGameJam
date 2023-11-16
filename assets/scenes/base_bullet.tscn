@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://iwunujfuitxw"]
 
 [ext_resource type="Script" path="res://scripts/core/weaponry/BaseBullet.cs" id="1_6rrqh"]
-[ext_resource type="Texture2D" uid="uid://w61eybky1v36" path="res://assets/sprites/bulletTemp.png" id="2_dmyhr"]
+[ext_resource type="Texture2D" uid="uid://blm4tvus3i5sb" path="res://assets/sprites/whiteCircle.png" id="2_euf1c"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="3_sjol7"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="4_n1h20"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="5_mh1sa"]
@@ -10,20 +10,21 @@
 
 [node name="BaseBullet" type="CharacterBody2D" groups=["PlayerBullet"]]
 position = Vector2(757, 478)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.05, 0.05)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_6rrqh")
 _speed = 1000.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3, -1)
-scale = Vector2(1.99, 1.99)
-shape = SubResource("CircleShape2D_kef6j")
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("2_dmyhr")
+modulate = Color(0.866667, 0.721569, 1, 1)
+self_modulate = Color(0, 0.862745, 1, 1)
+texture = ExtResource("2_euf1c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, 6)
+scale = Vector2(12.125, 12.125)
+shape = SubResource("CircleShape2D_kef6j")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-0.00012207, -0.833328)

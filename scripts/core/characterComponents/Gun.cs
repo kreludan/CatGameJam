@@ -33,7 +33,7 @@ public partial class Gun : Node2D
 		SetFireTimer();
 		InitializeBulletPool();
 	}
-	
+
 	private void SetFireTimer()
 	{
 		_fireTimer = GetNode<Timer>("FireTimer");
@@ -75,18 +75,26 @@ public partial class Gun : Node2D
 		Node2D bulletNode = (Node2D)GameplayConstants.BaseBulletScene.Instantiate();
 		_bulletNodeContainer.AddChild(bulletNode);
 		BaseBullet bullet = bulletNode as BaseBullet;
+		bullet?.SetOwner(this);
 		bullet?.DeactivateBullet();
-		_bulletPool.Enqueue(bullet);
 	}
 	
 	private void FireBullet()
 	{
 		if (_bulletPool.Count <= 0) return;
 		
+		GD.Print("Fire bullet");
 		BaseBullet bullet = _bulletPool.Dequeue();
+
+		if (bullet == null) return;
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 		bullet.ActivateBullet();
 		bullet.SetDirection(BulletDirection.Normalized());
-		bullet.SetOwner(this);
+	}
+
+	public void RequeueBullet(BaseBullet bullet)
+	{
+		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
+		_bulletPool.Enqueue(bullet);
 	}
 }

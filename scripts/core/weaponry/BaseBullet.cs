@@ -28,11 +28,11 @@ public partial class BaseBullet : Entity
         }
     }
 
-    
     public void DeactivateBullet()
     {
         Hide();
         SetProcess(false);
+        _ownerGun.RequeueBullet(this);
     }
     
     public void ActivateBullet()

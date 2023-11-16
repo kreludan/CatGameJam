@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Diagnostics;
 
 
 public partial class Entity : CharacterBody2D
@@ -56,10 +54,10 @@ public partial class Entity : CharacterBody2D
 		{
 			if (collision.GetCollider() is Entity collidedObject)
 			{
+				GD.Print( "I am collided with: " + collidedObject.Name);
 				CollisionEffectHandlerReference.HandleCollision(collidedObject.HitboxReference);
 			}
 		}
-
 		return collision;
 	}
 	
@@ -70,7 +68,7 @@ public partial class Entity : CharacterBody2D
 		{
 			invulTimer -= delta * Engine.GetFramesPerSecond();
 			_collisionCount = 0;
-			GD.Print("timer: " + invulTimer);
+			//GD.Print("timer: " + invulTimer);
 		}
 		else
 		{
@@ -80,7 +78,7 @@ public partial class Entity : CharacterBody2D
 	
 	private void SetInvulnerable()
 	{
-		GD.Print("Set collision now");
+		//GD.Print("Set collision now");
 		SetCollisionLayerValue(2, false);
 		invulTimer = invulFrames;
 	}
