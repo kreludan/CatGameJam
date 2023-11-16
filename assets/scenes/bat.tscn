@@ -1,12 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://dnpxckrgvu7am"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Bat.cs" id="1_rw7o0"]
-[ext_resource type="Texture2D" uid="uid://cj05jrd1huath" path="res://assets/sprites/batTemp.png" id="2_q078d"]
+[ext_resource type="Texture2D" uid="uid://c580y1raul3t8" path="res://assets/sprites/bat.png" id="2_la2x4"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_wy7ig"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_ocl0k"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="5_2eydg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7eafh"]
+radius = 6.80273
+height = 14.5125
 
 [node name="Bat" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(810, 166)
@@ -16,8 +18,8 @@ script = ExtResource("1_rw7o0")
 CharacterType = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.035, 0.035)
-texture = ExtResource("2_q078d")
+texture_filter = 1
+texture = ExtResource("2_la2x4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
