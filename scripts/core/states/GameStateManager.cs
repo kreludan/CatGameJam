@@ -46,10 +46,10 @@ public partial class GameStateManager : Node
 		}
 	}
 
-	private void DeactivateObject(Node2D)
-	{
-		
-	}
+	// private void DeactivateObject(Node2D)
+	// {
+	// 	
+	// }
 	
 	
 	//example psuedo usage
