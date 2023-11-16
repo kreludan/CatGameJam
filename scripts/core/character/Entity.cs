@@ -54,7 +54,7 @@ public partial class Entity : CharacterBody2D
 		{
 			if (collision.GetCollider() is Entity collidedObject)
 			{
-				GD.Print( "I am collided with: " + collidedObject.Name);
+				//GD.Print( "I am collided with: " + collidedObject.Name);
 				CollisionEffectHandlerReference.HandleCollision(collidedObject.HitboxReference);
 			}
 		}

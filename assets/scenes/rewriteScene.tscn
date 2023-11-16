@@ -681,10 +681,13 @@ scale = Vector2(0.1, 0.1)
 process_mode = 4
 visible = false
 position = Vector2(845, 162)
+CharacterType = 0
 
 [node name="Bat2" parent="." instance=ExtResource("3_ncfij")]
 process_mode = 4
 visible = false
 position = Vector2(831, 299)
+CharacterType = 0
 
 [node name="PlayerBulletPool" type="Node2D" parent="." groups=["PlayerBulletPool"]]
+position = Vector2(119, 97)

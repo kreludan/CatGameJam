@@ -11,7 +11,7 @@ public partial class BaseBullet : Entity
     public virtual void SetDirection(Vector2 direction)
     {
         Velocity = direction.Normalized() * _speed;
-        Debug.Print("Bullet direction set to " + this.Velocity.X + ", " + this.Velocity.Y);
+        //Debug.Print("Bullet direction set to " + this.Velocity.X + ", " + this.Velocity.Y);
     }
 
     public virtual void SetOwner(Gun ownerGun)
@@ -22,7 +22,7 @@ public partial class BaseBullet : Entity
     public override void _PhysicsProcess(double delta)
     {
         KinematicCollision2D collision = HandleCollision(delta);
-        if (collision != null)
+        if (collision != null && Visible)
         {
             DeactivateBullet();
         }
@@ -43,6 +43,6 @@ public partial class BaseBullet : Entity
 
     public void OnExitScreen()
     {
-        DeactivateBullet();
+        if(Visible) DeactivateBullet();
     }
 }
