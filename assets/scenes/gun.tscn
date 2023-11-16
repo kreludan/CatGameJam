@@ -8,7 +8,7 @@
 position = Vector2(192, 128)
 script = ExtResource("1_0prny")
 OwnerDistanceConstant = 100.0
-_fireRate = 0.35
+_fireRate = 0.1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ybxxt")

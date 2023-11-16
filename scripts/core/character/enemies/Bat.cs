@@ -94,6 +94,8 @@ public partial class Bat : EnemyFSM
 
 	protected override void UpdateChaseState()
 	{
+		if (Player == null) return;
+		
 		if (!IsPlayerInRange(ChaseRange))
 		{
 			//GD.Print("Within range");

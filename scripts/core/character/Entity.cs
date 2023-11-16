@@ -29,6 +29,10 @@ public partial class Entity : CharacterBody2D
 	{
 		HealthReference = GetNode<Health>("Health");
 		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
+		if (CollisionEffectHandlerReference == null)
+		{
+			GD.Print(Name + " is null");
+		}
 		HitboxReference = GetNode<Hitbox>("Hitbox");
 	}
 
@@ -52,7 +56,6 @@ public partial class Entity : CharacterBody2D
 		{
 			if (collision.GetCollider() is Entity collidedObject)
 			{
-				Debug.Print("frank and jeffrey warring appropriately");
 				CollisionEffectHandlerReference.HandleCollision(collidedObject.HitboxReference);
 			}
 		}
