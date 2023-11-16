@@ -45,6 +45,12 @@ public partial class GameStateManager : Node
 				break;
 		}
 	}
+
+	private void DeactivateObject(Node2D)
+	{
+		
+	}
+	
 	
 	//example psuedo usage
 	// public class Game : Node

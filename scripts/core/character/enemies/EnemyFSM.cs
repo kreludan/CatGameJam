@@ -89,7 +89,7 @@ public partial class EnemyFSM : Entity
     protected virtual void TransitionToState(EnemyState newState)
     {
         _currentState = newState;
-        GD.Print(_currentState);
+        //GD.Print(_currentState);
     }
 
     protected virtual void StartPatrol()
