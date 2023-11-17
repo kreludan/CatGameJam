@@ -18,18 +18,19 @@ public partial class Entity : CharacterBody2D
 	private int _collisionCount;
 	private int _maxCollisions = 1;
 
-	private int invulFrames = 150;
-	private double invulTimer;
+	private int _invulFrames = 150;
+	private double _invulTimer;
 	protected GameplayConstants.CollisionLayer BaseCollisionLayer;
 	private GameplayConstants.CollisionLayer _currentLayer;
 
-	[Export] private AnimationPlayer _animationPlayer;
-	private bool _invul;
+	private AnimationPlayer _animationPlayer;
+	private bool _isInvulnerable;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		HealthReference = GetNode<Health>("Health");
+		_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
 		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
 		if (CollisionEffectHandlerReference == null)
 		{
@@ -47,6 +48,11 @@ public partial class Entity : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		HandleCollision(delta);
+	}
+
+	public void PlayAnimation(string animationName)
+	{
+		_animationPlayer.Play(animationName);
 	}
 
 	protected KinematicCollision2D HandleCollision(double delta)
@@ -75,17 +81,17 @@ public partial class Entity : CharacterBody2D
 	
 	private void HandleInvulTimer(double delta)
 	{
-		if (invulTimer >= 0)
+		if (_invulTimer >= 0)
 		{
-			invulTimer -= delta * Engine.GetFramesPerSecond();
+			_invulTimer -= delta * Engine.GetFramesPerSecond();
 			_collisionCount = 0;
 			//GD.Print("timer: " + invulTimer);
 		}
 		else
 		{
-			if (_invul)
+			if (_isInvulnerable)
 			{
-				_invul = false;
+				_isInvulnerable = false;
 				GD.Print("setting invul to false");
 				SetCollisionLayerAndMask(BaseCollisionLayer, GameplayConstants.CollisionLayer.Invulnerable);
 			}
@@ -96,8 +102,8 @@ public partial class Entity : CharacterBody2D
 	{
 		//GD.Print("Set collision now");
 		SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Invulnerable, BaseCollisionLayer);
-		invulTimer = invulFrames;
-		_invul = true;
+		_invulTimer = _invulFrames;
+		_isInvulnerable = true;
 		GD.Print("Setting invul to true");
 	}
 	

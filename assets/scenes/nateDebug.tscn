@@ -707,7 +707,9 @@ layer_0/tile_data = PackedInt32Array(589827, 524288, 7, 589828, 589824, 7, 58982
 [node name="Jeffrey" parent="." instance=ExtResource("2_sry22")]
 position = Vector2(577, 216)
 collision_mask = 3
+CharacterType = null
 
 [node name="Frank" parent="." instance=ExtResource("2_sry22")]
 position = Vector2(280, 250)
 collision_mask = 3
+CharacterType = null

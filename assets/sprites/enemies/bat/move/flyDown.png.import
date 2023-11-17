@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://w61eybky1v36"
-path="res://.godot/imported/bulletTemp.png-9f21934e8b9ab68fedd75af787bbb743.ctex"
+uid="uid://dikelfdomelsi"
+path="res://.godot/imported/flyDown.png-b8ae46c2b1beea1e3158dedbd4d2f884.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/bulletTemp.png"
-dest_files=["res://.godot/imported/bulletTemp.png-9f21934e8b9ab68fedd75af787bbb743.ctex"]
+source_file="res://assets/sprites/enemies/bat/move/flyDown.png"
+dest_files=["res://.godot/imported/flyDown.png-b8ae46c2b1beea1e3158dedbd4d2f884.ctex"]
 
 [params]
 

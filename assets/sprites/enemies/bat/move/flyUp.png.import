@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0duqhbak6ek2"
-path="res://.godot/imported/espurr.png-221f10c9e9b87ed48ca3c55e17570170.ctex"
+uid="uid://drxsvglgb5lgl"
+path="res://.godot/imported/flyUp.png-1d098d9e8ec7b068ab888ea51fda01df.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/espurr.png"
-dest_files=["res://.godot/imported/espurr.png-221f10c9e9b87ed48ca3c55e17570170.ctex"]
+source_file="res://assets/sprites/enemies/bat/move/flyUp.png"
+dest_files=["res://.godot/imported/flyUp.png-1d098d9e8ec7b068ab888ea51fda01df.ctex"]
 
 [params]
 

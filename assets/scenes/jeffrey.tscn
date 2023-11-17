@@ -46,6 +46,8 @@ material = SubResource("ShaderMaterial_7hq58")
 scale = Vector2(20.415, 20.415)
 texture = ExtResource("2_tasp7")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 100.95)
 scale = Vector2(12.655, 7.08)
