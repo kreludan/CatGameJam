@@ -94,6 +94,8 @@ public partial class Bat : EnemyFSM
 
 	protected override void UpdateChaseState()
 	{
+		if (Player == null) return;
+		
 		if (!IsPlayerInRange(ChaseRange))
 		{
 			//GD.Print("Within range");
@@ -130,6 +132,7 @@ public partial class Bat : EnemyFSM
 	private bool IsPlayerInRange(float range)
 	{
 		if (Player == null) return false;
+		if (!IsInstanceIdValid(Player.GetInstanceId())) return false;
 		
 		float distanceToPlayer = Position.DistanceTo(Player.Position);
 		return distanceToPlayer <= range;
