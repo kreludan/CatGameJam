@@ -1,7 +1,7 @@
 using System.Reflection.Metadata;
 using Godot;
 
-public partial class EnemyFSM : Entity
+public partial class EnemyFSM : Node2D
 {
     public enum EnemyState
     {
@@ -13,26 +13,23 @@ public partial class EnemyFSM : Entity
     }
     
     private EnemyState _currentState = EnemyState.Idle;
-    protected Entity Player;
+    protected Entity EntityRef;
+    protected Entity PlayerRef;
     private static readonly StringName PlayerString = new("Player");
 
     public override void _Ready()
     {
         base._Ready();
+        EntityRef = Owner as Entity;
         // Determine whether to transition to Idle or Patrol state with a 50/50 chance
         TransitionToState(GD.Randf() < 0.5f ? EnemyState.Idle : EnemyState.Patrol);
-        Player = (Entity)GetTree().GetNodesInGroup(PlayerString)[0];
+        PlayerRef = (Entity)GetTree().GetNodesInGroup(PlayerString)[0];
     }
     
     public override void _Process(double delta)
     {
         // Update the current state
         UpdateState();
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        HandleCollision(delta);
     }
 
     private void UpdateState()
@@ -89,7 +86,6 @@ public partial class EnemyFSM : Entity
     protected virtual void TransitionToState(EnemyState newState)
     {
         _currentState = newState;
-        //GD.Print(_currentState);
     }
 
     protected virtual void StartPatrol()

@@ -5,17 +5,22 @@ public partial class BaseBullet : Entity
     [Export]
     private float _speed;
     private Gun _ownerGun;
-    
+    private const GameplayConstants.CollisionLayer DeactivatedBulletLayer =
+        GameplayConstants.CollisionLayer.DeactivatedBullets;
 
+    
+    public virtual void InitializeFields(Gun ownerGun)
+    {
+        _ownerGun = ownerGun;
+        CharacterType = _ownerGun.GunOwner.CharacterType;
+        BaseCollisionLayer = GetBulletLayer();
+        SetCollisionLayerAndMask(BaseCollisionLayer);
+    }
+    
     public virtual void SetDirection(Vector2 direction)
     {
         Velocity = direction.Normalized() * _speed;
         //Debug.Print("Bullet direction set to " + this.Velocity.X + ", " + this.Velocity.Y);
-    }
-
-    public virtual void SetOwner(Gun ownerGun)
-    {
-        _ownerGun = ownerGun;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -29,19 +34,25 @@ public partial class BaseBullet : Entity
 
     public void DeactivateBullet()
     {
-        Hide();
+        SetCollisionLayerAndMask(DeactivatedBulletLayer, GetBulletLayer());
         SetProcess(false);
+        SetPhysicsProcess(false);
+        Hide();
         _ownerGun.RequeueBullet(this);
     }
     
     public void ActivateBullet()
     {
-        Show();
+        SetCollisionLayerAndMask(GetBulletLayer(), DeactivatedBulletLayer);
         SetProcess(true);
+        SetPhysicsProcess(true);
+        Show();
     }
 
-    public void OnExitScreen()
+    private GameplayConstants.CollisionLayer GetBulletLayer()
     {
-        if(Visible) DeactivateBullet();
+        return CharacterType == GameplayConstants.CharacterType.Player
+            ? GameplayConstants.CollisionLayer.PlayerBullets
+            : GameplayConstants.CollisionLayer.EnemyBullets; 
     }
 }

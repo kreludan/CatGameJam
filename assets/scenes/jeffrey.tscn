@@ -1,7 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://lghleh2af0vl"]
+[gd_scene load_steps=16 format=3 uid="uid://lghleh2af0vl"]
 
+[ext_resource type="Script" path="res://scripts/core/character/player/Player.cs" id="1_2fymu"]
 [ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5eiy8"]
-[ext_resource type="Script" path="res://scripts/core/character/enemies/Bat.cs" id="1_g4ot7"]
 [ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_8na64"]
 [ext_resource type="Texture2D" uid="uid://bdictjsdaviy" path="res://assets/sprites/Cat.png" id="2_tasp7"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_0vif3"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="6_y4ge3"]
 [ext_resource type="Script" path="res://scripts/traps/TrapHandler.cs" id="9_6c8pw"]
 [ext_resource type="Script" path="res://scripts/core/character/TerrainDetector.cs" id="9_aeh54"]
+[ext_resource type="Script" path="res://scripts/camera/CameraHandler.cs" id="11_33rcg"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iy4jf"]
 cull_mode = 2
@@ -30,10 +31,10 @@ size = Vector2(276, 96)
 
 [node name="Jeffrey" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(240, 338)
-scale = Vector2(0.25, 0.25)
-collision_layer = 16
-collision_mask = 6
-script = ExtResource("1_g4ot7")
+scale = Vector2(0.1, 0.1)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_2fymu")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 position = Vector2(8, -8)
@@ -81,6 +82,16 @@ script = ExtResource("9_aeh54")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TerrainDetector"]
 position = Vector2(-38, 168)
 shape = SubResource("RectangleShape2D_lvg68")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(2.5, 2.5)
+zoom = Vector2(1.6, 1.6)
+limit_left = 90
+limit_top = -40
+limit_right = 1145
+limit_bottom = 560
+position_smoothing_speed = 8.0
+script = ExtResource("11_33rcg")
 
 [connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
 [connection signal="body_shape_entered" from="TerrainDetector" to="TerrainDetector" method="_on_body_shape_entered"]

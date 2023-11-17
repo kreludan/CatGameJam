@@ -12,6 +12,8 @@ public partial class Gun : Node2D
 	private double _fireRate;
 	private Timer _fireTimer;
 	
+	public Entity GunOwner;
+	
 	public Vector2 BulletDirection { get; set; }
 	
 	public bool IsFiring { get; set; }
@@ -20,7 +22,7 @@ public partial class Gun : Node2D
 
 	
 	private readonly Queue<BaseBullet> _bulletPool = new();
-	private const int BulletPoolSize = 100;
+	private const int BulletPoolSize = 1;
 	
 	private Node2D _bulletSpawnPoint;
 	private Node2D _bulletNodeContainer;
@@ -29,6 +31,7 @@ public partial class Gun : Node2D
 	{
 		_bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
 		_bulletNodeContainer = (Node2D) GetTree().GetNodesInGroup("PlayerBulletPool")[0];
+		GunOwner = Owner as Entity;
 		SetFireTimer();
 		InitializeBulletPool();
 	}
@@ -72,7 +75,7 @@ public partial class Gun : Node2D
 		Node2D bulletNode = (Node2D)GameplayConstants.BaseBulletScene.Instantiate();
 		_bulletNodeContainer.AddChild(bulletNode);
 		BaseBullet bullet = bulletNode as BaseBullet;
-		bullet?.SetOwner(this);
+		bullet?.InitializeFields(this);
 		bullet?.DeactivateBullet();
 	}
 	

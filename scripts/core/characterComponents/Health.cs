@@ -43,6 +43,7 @@ public partial class Health : Node2D
         _currentLives -= damage;
         if (_currentLives <= 0)
         {
+            (Owner as Entity)?.Die();
             //EmitSignal("DeathEventHandler");
         }
 

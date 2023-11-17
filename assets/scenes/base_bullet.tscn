@@ -26,10 +26,6 @@ position = Vector2(4, 6)
 scale = Vector2(12.125, 12.125)
 shape = SubResource("CircleShape2D_kef6j")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-0.00012207, -0.833328)
-scale = Vector2(2.66666, 2.58333)
-
 [node name="CollisionEffectHandler" type="Node2D" parent="."]
 script = ExtResource("3_sjol7")
 
@@ -44,5 +40,3 @@ wait_time = 0.1
 script = ExtResource("5_mh1sa")
 Damage = 1
 KnockbackIntensity = 2.0
-
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnExitScreen"]

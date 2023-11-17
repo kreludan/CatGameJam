@@ -2,7 +2,7 @@ using System.Numerics;
 using Godot;
 using Vector2 = Godot.Vector2;
 
-public partial class Bat : EnemyFSM
+public partial class BatFSM : EnemyFSM
 {
 	private const float PatrolSpeed = 100f;
 	private const float ChaseRange = 350f;
@@ -20,24 +20,11 @@ public partial class Bat : EnemyFSM
 	private int _idlePatrolTransitionFrequency = 100;
 	private Vector2 _currentDirection = Vector2.Zero;
 
-	[Export]
-	private AnimationPlayer _batPlayer;
-
-	public override void _Ready()
-	{
-		//base._Ready();
-		//_batPlayer = Owner.GetNode<Sprite2D>("Sprite").GetNode<AnimationPlayer>("AnimationPlayer");
-		if (_batPlayer == null)
-		{
-			GD.Print("Player NULL");
-		}
-	}
-
 	protected override void UpdateIdleState()
 	{
-		if (Velocity != Vector2.Zero)
+		if (EntityRef.Velocity != Vector2.Zero)
 		{
-			Velocity = Vector2.Zero;
+			EntityRef.Velocity = Vector2.Zero;
 		}
 		if (IsPlayerInRange(ChaseRange))
 		{
@@ -65,7 +52,6 @@ public partial class Bat : EnemyFSM
 			{
 				_currentDirection = new Vector2(GD.RandRange(-1, 1), GD.RandRange(-1, 1)).Normalized();
 			}
-			PlayMovementAnimation();
 			// Reset the frame counter
 			_patrolFrameCounter = GD.RandRange(_patrolChangeFrequencyMin, _patrolChangeFrequencyMax);
 		}
@@ -77,13 +63,12 @@ public partial class Bat : EnemyFSM
 		{
 			_currentDirection = new Vector2(GD.RandRange(-1, 1), GD.RandRange(-1, 1)).Normalized();
 		}
-		//Position += _currentDirection * PatrolSpeed;
-		Velocity = _currentDirection * PatrolSpeed;
+		EntityRef.Velocity = _currentDirection * PatrolSpeed;
+		
 		// Check if the player is in range
 		if (IsPlayerInRange(ChaseRange))
 		{
 			TransitionToState(EnemyState.Chase);
-			return;
 		}
 		// // Check if the enemy is within the patrol area
 		// if (!IsWithinPatrolArea(Position))
@@ -94,28 +79,6 @@ public partial class Bat : EnemyFSM
 		// 	Velocity = playerDirection * PatrolSpeed;
 		// 	GD.Print("Velocity: " + Velocity);
 		// }
-	}
-
-	private void PlayMovementAnimation()
-	{
-		if (_batPlayer == null) return;
-		
-		if (_currentDirection.X < 0 && _currentDirection.Y == 0)
-		{
-			_batPlayer.Play("fly_left");
-		}
-		else if (_currentDirection.X > 0 && _currentDirection.Y == 0)
-		{
-			_batPlayer.Play("fly_right");
-		}
-		if (_currentDirection.Y < 0)
-		{
-			_batPlayer.Play("fly_up");
-		}
-		if (_currentDirection.Y > 0)
-		{
-			_batPlayer.Play("fly_down");
-		}
 	}
 
 
@@ -133,7 +96,7 @@ public partial class Bat : EnemyFSM
 
 	protected override void UpdateChaseState()
 	{
-		if (Player == null) return;
+		if (PlayerRef == null) return;
 		
 		if (!IsPlayerInRange(ChaseRange))
 		{
@@ -143,14 +106,10 @@ public partial class Bat : EnemyFSM
 		}
 		if (_chaseFrameCounter % _chaseChangeFrequency == 0)
 		{
-			_currentChaseDirection = (Player.Position - Position).Normalized().Rotated(GetRandomAngle());
-			//GD.Print("New direction: " + _currentChaseDirection);
-			PlayMovementAnimation();
+			_currentChaseDirection = (PlayerRef.Position - EntityRef.Position).Normalized().Rotated(GetRandomAngle());
 		}
-		//Position += _currentChaseDirection * ChaseSpeed;
-		Velocity = _currentChaseDirection * ChaseSpeed;
+		EntityRef.Velocity = _currentChaseDirection * ChaseSpeed;
 		_chaseFrameCounter = (_chaseFrameCounter + 1) % _chaseChangeFrequency;
-		PlayMovementAnimation();
 	}
 
 	private float GetRandomAngle()
@@ -172,10 +131,10 @@ public partial class Bat : EnemyFSM
 
 	private bool IsPlayerInRange(float range)
 	{
-		if (Player == null) return false;
-		if (!IsInstanceIdValid(Player.GetInstanceId())) return false;
+		if (PlayerRef == null) return false;
+		if (!IsInstanceIdValid(PlayerRef.GetInstanceId())) return false;
 		
-		float distanceToPlayer = Position.DistanceTo(Player.Position);
+		float distanceToPlayer = EntityRef.Position.DistanceTo(PlayerRef.Position);
 		return distanceToPlayer <= range;
 	}
 }
