@@ -83,4 +83,5 @@ public partial class Entity : CharacterBody2D
 		invulTimer = invulFrames;
 	}
 
+	//protected abstract void SetCollisionLayerAndMask();
 }

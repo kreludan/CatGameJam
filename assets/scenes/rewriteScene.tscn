@@ -2,11 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://lghleh2af0vl" path="res://assets/scenes/jeffrey.tscn" id="2_n5qwv"]
 [ext_resource type="PackedScene" uid="uid://dnpxckrgvu7am" path="res://assets/scenes/bat.tscn" id="3_ncfij"]
+[ext_resource type="Script" path="res://scripts/core/character/Entity.cs" id="4_gv500"]
 [ext_resource type="Texture2D" uid="uid://yq3oyf5o8kqw" path="res://assets/sprites/pyramid1/Pyramid1Tiles.png" id="4_udcy6"]
 [ext_resource type="Script" path="res://scripts/camera/CameraHandler.cs" id="4_xffnh"]
 [ext_resource type="Texture2D" uid="uid://djb7g67u6pumc" path="res://assets/sprites/pyramid1/PyramidTiles2.png" id="5_08bfo"]
 [ext_resource type="Texture2D" uid="uid://dg057aiiko6dw" path="res://assets/sprites/TorchMask.png" id="5_d5a22"]
-[ext_resource type="PackedScene" uid="uid://bvfp57wkxyb1m" path="res://assets/scenes/torch.tscn" id="6_p3jij"]
+[ext_resource type="PackedScene" path="res://assets/scenes/torch.tscn" id="6_p3jij"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qhdwg"]
 texture = ExtResource("4_udcy6")
@@ -265,6 +266,7 @@ layer_0/tile_data = PackedInt32Array(0, 65538, 0, 65535, 131074, 0, -393232, 655
 [node name="Jeffrey" parent="." instance=ExtResource("2_n5qwv")]
 position = Vector2(264, 134)
 scale = Vector2(0.1, 0.1)
+script = ExtResource("4_gv500")
 
 [node name="Camera2D" type="Camera2D" parent="Jeffrey"]
 scale = Vector2(2.5, 2.5)
