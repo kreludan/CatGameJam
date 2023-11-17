@@ -25,7 +25,6 @@ public partial class Gun : Node2D
 	private Node2D _bulletSpawnPoint;
 	private Node2D _bulletNodeContainer;
 	
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
@@ -49,7 +48,6 @@ public partial class Gun : Node2D
 		}
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		HandleFiring();
@@ -62,7 +60,6 @@ public partial class Gun : Node2D
 		
 		if (_bulletPool.Count == 0)
 		{
-			Debug.Print("empty, creating new bullet");
 			CreateNewBullet();
 			return;
 		}
@@ -83,7 +80,7 @@ public partial class Gun : Node2D
 	{
 		if (_bulletPool.Count <= 0)
 		{
-			Debug.Print("No bullets left.");
+			//Debug.Print("No bullets left.");
 			return;
 		}
 		
@@ -91,11 +88,11 @@ public partial class Gun : Node2D
 
 		if (bullet == null)
 		{
-			Debug.Print("Dequeued null bullet from the queue.");
+			//Debug.Print("Dequeued null bullet from the queue.");
 			return;
 		}
 		
-		Debug.Print("Dequeued bullet. " + _bulletPool.Count + " bullets left.");
+		//Debug.Print("Dequeued bullet. " + _bulletPool.Count + " bullets left.");
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 		bullet.ActivateBullet();
 		bullet.SetDirection(BulletDirection.Normalized());
@@ -105,6 +102,6 @@ public partial class Gun : Node2D
 	{
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 		_bulletPool.Enqueue(bullet);
-		Debug.Print("Requeueing bullet. " + _bulletPool.Count + " bullets left.");
+		//Debug.Print("Requeueing bullet. " + _bulletPool.Count + " bullets left.");
 	}
 }

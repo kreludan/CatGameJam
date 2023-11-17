@@ -1,8 +1,10 @@
+using System.Numerics;
 using Godot;
+using Vector2 = Godot.Vector2;
 
 public partial class Bat : EnemyFSM
 {
-	private const float PatrolSpeed = 200f;
+	private const float PatrolSpeed = 100f;
 	private const float ChaseRange = 350f;
 	private const float ChaseSpeed = 200f;
 	private int _chaseChangeFrequency = 100;
@@ -17,6 +19,19 @@ public partial class Bat : EnemyFSM
 	private int _idleFrameCounter;
 	private int _idlePatrolTransitionFrequency = 100;
 	private Vector2 _currentDirection = Vector2.Zero;
+
+	[Export]
+	private AnimationPlayer _batPlayer;
+
+	public override void _Ready()
+	{
+		//base._Ready();
+		//_batPlayer = Owner.GetNode<Sprite2D>("Sprite").GetNode<AnimationPlayer>("AnimationPlayer");
+		if (_batPlayer == null)
+		{
+			GD.Print("Player NULL");
+		}
+	}
 
 	protected override void UpdateIdleState()
 	{
@@ -50,6 +65,7 @@ public partial class Bat : EnemyFSM
 			{
 				_currentDirection = new Vector2(GD.RandRange(-1, 1), GD.RandRange(-1, 1)).Normalized();
 			}
+			PlayMovementAnimation();
 			// Reset the frame counter
 			_patrolFrameCounter = GD.RandRange(_patrolChangeFrequencyMin, _patrolChangeFrequencyMax);
 		}
@@ -80,6 +96,29 @@ public partial class Bat : EnemyFSM
 		// }
 	}
 
+	private void PlayMovementAnimation()
+	{
+		if (_batPlayer == null) return;
+		
+		if (_currentDirection.X < 0 && _currentDirection.Y == 0)
+		{
+			_batPlayer.Play("fly_left");
+		}
+		else if (_currentDirection.X > 0 && _currentDirection.Y == 0)
+		{
+			_batPlayer.Play("fly_right");
+		}
+		if (_currentDirection.Y < 0)
+		{
+			_batPlayer.Play("fly_up");
+		}
+		if (_currentDirection.Y > 0)
+		{
+			_batPlayer.Play("fly_down");
+		}
+	}
+
+
 	// Check if the position is within the specified patrol area
 	private bool IsWithinPatrolArea(Vector2 position)
 	{
@@ -106,10 +145,12 @@ public partial class Bat : EnemyFSM
 		{
 			_currentChaseDirection = (Player.Position - Position).Normalized().Rotated(GetRandomAngle());
 			//GD.Print("New direction: " + _currentChaseDirection);
+			PlayMovementAnimation();
 		}
 		//Position += _currentChaseDirection * ChaseSpeed;
 		Velocity = _currentChaseDirection * ChaseSpeed;
 		_chaseFrameCounter = (_chaseFrameCounter + 1) % _chaseChangeFrequency;
+		PlayMovementAnimation();
 	}
 
 	private float GetRandomAngle()

@@ -13,6 +13,8 @@ public partial class Health : Node2D
     private Timer _damageCooldownTimer;
     private Sprite2D _sprite;
     private Material _spriteMat;
+    [Export]
+    private bool _cameraShakeOnDamage;
     
     public override void _Ready()
     {
@@ -43,19 +45,29 @@ public partial class Health : Node2D
         {
             //EmitSignal("DeathEventHandler");
         }
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 0.7f);
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("r", 1.0f);
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("g", 0f);
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("b", 0f);
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0.7f);
-        _damageCooldownTimer.Start();
 
+        if (_cameraShakeOnDamage)
+        {
+            CameraHandler.ApplyShake();
+        }
+        if (_spriteMat != null)
+        {
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 0.7f);
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("r", 1.0f);
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("g", 0f);
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("b", 0f);
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0.7f);
+        }
+        _damageCooldownTimer.Start();
     }
 
     public void _on_take_damage_timer_timeout()
     {
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 1.0f);
-        ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0f);
+        if (_spriteMat != null)
+        {
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 1.0f);
+            ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0f);
+        }
     }
 	
     public void AddBonusLife(int bonus)
