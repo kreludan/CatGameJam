@@ -10,6 +10,18 @@ public partial class Health : Node2D
     public delegate void DeathEventHandler();
     [Signal]
     public delegate void OnTakeDamageEventHandler();
+    private Timer _damageCooldownTimer;
+    private Sprite2D _sprite;
+    private Material _spriteMat;
+    
+    public override void _Ready()
+    {
+        _currentLives = _maxLives;
+        _sprite = Owner.GetNode<Sprite2D>("Sprite");
+        _spriteMat = _sprite.Material;
+        _damageCooldownTimer = GetNode<Timer>("TakeDamageTimer");
+        _damageCooldownTimer.OneShot = true;
+    }
     
     public override void _Process(double delta)
     {
@@ -21,22 +33,32 @@ public partial class Health : Node2D
             ownerNode?.SetProcess(false);
         }
     }
-
-    public override void _Ready()
-    {
-        _currentLives = _maxLives;
-    }
-
+    
     public void TakeDamage(int damage)
     {
+        if (!_damageCooldownTimer.IsStopped()) return;
+        
         _currentLives -= damage;
-        //GD.Print("Current health:" +  _currentLives + " " + Owner.Name);
         if (_currentLives <= 0)
         {
-            // Trigger the death event when lives reach zero
-            EmitSignal("Death");
+            //EmitSignal("DeathEventHandler");
         }
-        EmitSignal(SignalName.OnTakeDamage);
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 0.7f);
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("r", 1.0f);
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("g", 0f);
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("b", 0f);
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0.7f);
+        GD.Print("Take damage");
+        GD.Print( Owner.Name + "'s opacity: " + _sprite.Material.Get("opacity"));
+        _damageCooldownTimer.Start();
+
+    }
+
+    public void _on_take_damage_timer_timeout()
+    {
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 1.0f);
+        ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0f);
+        GD.Print("Timer timeout opacity: " + _sprite.Material.Get("opacity"));
     }
 	
     public void AddBonusLife(int bonus)

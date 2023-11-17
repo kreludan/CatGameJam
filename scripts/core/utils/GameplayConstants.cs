@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class GameplayConstants
 {
@@ -7,17 +6,20 @@ public partial class GameplayConstants
 	public enum CharacterType{Player, BasicEnemy}
 	public enum BulletType{BaseBullet, NotBaseBullet}
 	public enum StatusEffect{Freeze, Burn, Poison, Paralysis, Sleep, None}
+	public enum TerrainType { GROUND = 1, SAND = 2, WATER = 4, TRAP = 8 }
+	public enum TrapType { SPIKES = 1, HOLE = 2 }
 
 	public enum CollisionLayers
 	{
-		Walls = 1,
-		Player = 2,
-		PlayerBullets = 3,
-		Enemies = 4,
-		EnemyBullets = 5,
+		PassableTerrain = 1,
+		NonPassableTerrain = 2,
 		
-		DeactivatedPlayerBullets = 20,
-		DeactivatedEnemyBullets = 21,
+		Player = 5,
+		PlayerBullets = 6,
+		Enemies = 7,
+		EnemyBullets = 8,
+		
+		DeactivatedBullets = 21,
 		Delete = 22
 	}
 	

@@ -1,42 +1,61 @@
-[gd_scene load_steps=10 format=3 uid="uid://lghleh2af0vl"]
+[gd_scene load_steps=15 format=3 uid="uid://lghleh2af0vl"]
 
 [ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5eiy8"]
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Bat.cs" id="1_g4ot7"]
+[ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_8na64"]
 [ext_resource type="Texture2D" uid="uid://bdictjsdaviy" path="res://assets/sprites/Cat.png" id="2_tasp7"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_0vif3"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_qnpga"]
 [ext_resource type="PackedScene" uid="uid://blfrda1knghje" path="res://assets/scenes/gun.tscn" id="6_jbt05"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="6_y4ge3"]
+[ext_resource type="Script" path="res://scripts/traps/TrapHandler.cs" id="9_6c8pw"]
+[ext_resource type="Script" path="res://scripts/core/character/TerrainDetector.cs" id="9_aeh54"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iy4jf"]
 cull_mode = 2
 polygon = PackedVector2Array(-200, 148, -140, 92, -96, 20, -96, -88, -56, -180, -24, -140, 48, -140, 92, -196, 108, -88, 136, -92, 132, -32, 88, 24, 92, 228, 40, 232, 32, 208, 8, 228, -168, 228)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7hq58"]
+shader = ExtResource("2_8na64")
+shader_parameter/opacity = 1.0
+shader_parameter/r = 1.0
+shader_parameter/g = 0.0
+shader_parameter/b = 0.0
+shader_parameter/mix_color = 0.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ijq5p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lvg68"]
+size = Vector2(276, 96)
 
 [node name="Jeffrey" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(240, 338)
 scale = Vector2(0.25, 0.25)
-collision_layer = 2
-collision_mask = 5
+collision_layer = 16
+collision_mask = 6
 script = ExtResource("1_g4ot7")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 position = Vector2(8, -8)
 occluder = SubResource("OccluderPolygon2D_iy4jf")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_7hq58")
 scale = Vector2(20.415, 20.415)
 texture = ExtResource("2_tasp7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-2, 17)
 scale = Vector2(13.07, 13.07)
 shape = SubResource("CapsuleShape2D_ijq5p")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_0vif3")
+
+[node name="TakeDamageTimer" type="Timer" parent="Health"]
+wait_time = 0.25
 
 [node name="Hitbox" type="Node2D" parent="."]
 script = ExtResource("4_qnpga")
@@ -52,3 +71,16 @@ script = ExtResource("6_y4ge3")
 
 [node name="Gun" parent="." instance=ExtResource("6_jbt05")]
 OwnerDistanceConstant = 35.0
+
+[node name="TrapHandler" type="Node2D" parent="."]
+script = ExtResource("9_6c8pw")
+
+[node name="TerrainDetector" type="Area2D" parent="."]
+script = ExtResource("9_aeh54")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TerrainDetector"]
+position = Vector2(-38, 168)
+shape = SubResource("RectangleShape2D_lvg68")
+
+[connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
+[connection signal="body_shape_entered" from="TerrainDetector" to="TerrainDetector" method="_on_body_shape_entered"]

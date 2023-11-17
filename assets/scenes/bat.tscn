@@ -1,10 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://dnpxckrgvu7am"]
+[gd_scene load_steps=9 format=3 uid="uid://dnpxckrgvu7am"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Bat.cs" id="1_rw7o0"]
 [ext_resource type="Texture2D" uid="uid://c580y1raul3t8" path="res://assets/sprites/bat.png" id="2_la2x4"]
+[ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_n5d4m"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_wy7ig"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_ocl0k"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="5_2eydg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u7wb6"]
+shader = ExtResource("2_n5d4m")
+shader_parameter/opacity = 1.0
+shader_parameter/r = null
+shader_parameter/g = null
+shader_parameter/b = null
+shader_parameter/mix_color = 0.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7eafh"]
 radius = 6.80273
@@ -17,8 +26,9 @@ collision_mask = 3
 script = ExtResource("1_rw7o0")
 CharacterType = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_u7wb6")
 texture = ExtResource("2_la2x4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -30,6 +40,9 @@ shape = SubResource("CapsuleShape2D_7eafh")
 script = ExtResource("3_wy7ig")
 _maxLives = 2
 
+[node name="TakeDamageTimer" type="Timer" parent="Health"]
+wait_time = 0.25
+
 [node name="Hitbox" type="Node2D" parent="."]
 script = ExtResource("4_ocl0k")
 Damage = 1
@@ -38,3 +51,5 @@ StatusEffect = 5
 
 [node name="CollisionEffectHandler" type="Node2D" parent="."]
 script = ExtResource("5_2eydg")
+
+[connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
