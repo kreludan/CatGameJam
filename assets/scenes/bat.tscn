@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnpxckrgvu7am"]
+[gd_scene load_steps=15 format=3 uid="uid://dnpxckrgvu7am"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Bat.cs" id="1_rw7o0"]
-[ext_resource type="Texture2D" uid="uid://c580y1raul3t8" path="res://assets/sprites/bat.png" id="2_la2x4"]
 [ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_n5d4m"]
+[ext_resource type="Texture2D" uid="uid://cgb4nxqvaltlo" path="res://assets/sprites/enemies/bat_sprite_sheet.png" id="3_103p1"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_wy7ig"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_ocl0k"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="5_2eydg"]
@@ -16,21 +16,114 @@ shader_parameter/g = null
 shader_parameter/b = null
 shader_parameter/mix_color = 0.0
 
+[sub_resource type="Animation" id="Animation_afeq6"]
+resource_name = "fly_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_ahstt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_l1qv6"]
+resource_name = "fly_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_mtyd2"]
+resource_name = "fly_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_u38up"]
+resource_name = "fly_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p3xms"]
+_data = {
+"RESET": SubResource("Animation_ahstt"),
+"fly_down": SubResource("Animation_mtyd2"),
+"fly_left": SubResource("Animation_l1qv6"),
+"fly_right": SubResource("Animation_afeq6"),
+"fly_up": SubResource("Animation_u38up")
+}
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7eafh"]
 radius = 6.80273
 height = 14.5125
 
-[node name="Bat" type="CharacterBody2D" groups=["Enemy"]]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_batPlayer") groups=["Enemy"]]
 position = Vector2(810, 166)
+scale = Vector2(1.5, 1.5)
 collision_layer = 64
 collision_mask = 18
 script = ExtResource("1_rw7o0")
+_batPlayer = NodePath("Sprite/AnimationPlayer")
 CharacterType = 1
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_u7wb6")
-texture = ExtResource("2_la2x4")
+texture = ExtResource("3_103p1")
+hframes = 4
+frame = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_p3xms")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
