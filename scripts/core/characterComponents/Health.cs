@@ -48,8 +48,6 @@ public partial class Health : Node2D
         ((ShaderMaterial)_spriteMat).SetShaderParameter("g", 0f);
         ((ShaderMaterial)_spriteMat).SetShaderParameter("b", 0f);
         ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0.7f);
-        GD.Print("Take damage");
-        GD.Print( Owner.Name + "'s opacity: " + _sprite.Material.Get("opacity"));
         _damageCooldownTimer.Start();
 
     }
@@ -58,7 +56,6 @@ public partial class Health : Node2D
     {
         ((ShaderMaterial)_spriteMat).SetShaderParameter("opacity", 1.0f);
         ((ShaderMaterial)_spriteMat).SetShaderParameter("mix_color", 0f);
-        GD.Print("Timer timeout opacity: " + _sprite.Material.Get("opacity"));
     }
 	
     public void AddBonusLife(int bonus)

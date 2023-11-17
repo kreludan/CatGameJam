@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="5_2eydg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7wb6"]
+resource_local_to_scene = true
 shader = ExtResource("2_n5d4m")
 shader_parameter/opacity = 1.0
 shader_parameter/r = null
@@ -21,8 +22,8 @@ height = 14.5125
 
 [node name="Bat" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(810, 166)
-collision_layer = 4
-collision_mask = 3
+collision_layer = 64
+collision_mask = 18
 script = ExtResource("1_rw7o0")
 CharacterType = 1
 
