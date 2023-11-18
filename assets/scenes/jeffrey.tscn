@@ -101,3 +101,4 @@ script = ExtResource("12_mrq5l")
 
 [connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
 [connection signal="body_shape_entered" from="TerrainDetector" to="TerrainDetector" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="TerrainDetector" to="TerrainDetector" method="_on_body_shape_exited"]
