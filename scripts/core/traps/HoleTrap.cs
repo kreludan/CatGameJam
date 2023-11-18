@@ -10,4 +10,9 @@ public partial class HoleTrap : Trap
         Damage = 2;
         ApplyDamage();
     }
+
+    public override void Update()
+    {
+        GD.Print("UPDATING HOLE");
+    }
 }

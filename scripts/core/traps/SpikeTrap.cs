@@ -10,4 +10,9 @@ public partial class SpikeTrap : Trap
         Damage = 1;
         ApplyDamage();
     }
+
+    public override void Update()
+    {
+        GD.Print("UPDATING SPIKE");
+    }
 }

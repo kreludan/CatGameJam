@@ -2,7 +2,7 @@ using Godot;
 
 public partial class Trap
 {
-    protected readonly GameplayConstants.TrapType TrapType;
+    public readonly GameplayConstants.TrapType TrapType;
     protected Health Health;
     protected int Damage;
 
@@ -13,6 +13,8 @@ public partial class Trap
     }
     
     public virtual void Activate() { }
+    
+    public virtual void Update() { }
     
     protected void ApplyDamage()
     {
