@@ -7,6 +7,7 @@ public partial class Player : Entity
 	{
 		base._Ready();
 		CharacterType = GameplayConstants.CharacterType.Player;
+		SeHandler = GetNode<StatusEffectHandler>("StatusEffectHandler");
 		BaseCollisionLayer = GameplayConstants.CollisionLayer.Player;
 		SetCollisionLayerAndMask(BaseCollisionLayer);
 	}

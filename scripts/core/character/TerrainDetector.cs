@@ -1,14 +1,15 @@
 using Godot;
-using System;
 using System.Diagnostics;
 
 public partial class TerrainDetector : Area2D
 {
 	private TileMap _currentTileMap;
 	private TrapHandler _trapHandler;
+	private Entity _entity;
 
 	public override void _Ready()
 	{
+		_entity = Owner as Entity;
 		_trapHandler = Owner.GetNode<TrapHandler>("TrapHandler");
 	}
 
@@ -20,14 +21,14 @@ public partial class TerrainDetector : Area2D
 		{
 			TileData tileData = _currentTileMap.GetCellTileData(i, collidedTileCoords);
 			if (tileData is null) continue;
-
 			
 			Variant tileMask = tileData.GetCustomDataByLayerId(0);
 			Debug.Print("Tile mask: " + tileMask);
 			if (tileMask.AsInt32() == (int)GameplayConstants.TerrainType.TRAP)
 			{
-				Variant trapMask = tileData.GetCustomDataByLayerId(1);
+				if (_entity.GetCollisionLayerValue((int)GameplayConstants.CollisionLayer.Invulnerable)) return;
 				
+				Variant trapMask = tileData.GetCustomDataByLayerId(1);
 				Debug.Print("Trap mask: " + trapMask);
 				_trapHandler.HandleTrap(trapMask.AsInt32());
 			}

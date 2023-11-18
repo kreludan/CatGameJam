@@ -79,6 +79,7 @@ dodge={
 2d_physics/layer_6="PlayerBullets"
 2d_physics/layer_7="Enemies"
 2d_physics/layer_8="EnemyBullets"
+2d_physics/layer_20="Invulnerable"
 2d_physics/layer_21="DeactivatedBullets"
 2d_physics/layer_22="Delete"
 

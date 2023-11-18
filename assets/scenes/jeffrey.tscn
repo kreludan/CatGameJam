@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://lghleh2af0vl"]
+[gd_scene load_steps=17 format=3 uid="uid://lghleh2af0vl"]
 
 [ext_resource type="Script" path="res://scripts/core/character/player/Player.cs" id="1_2fymu"]
 [ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5eiy8"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/traps/TrapHandler.cs" id="9_6c8pw"]
 [ext_resource type="Script" path="res://scripts/core/character/TerrainDetector.cs" id="9_aeh54"]
 [ext_resource type="Script" path="res://scripts/camera/CameraHandler.cs" id="11_33rcg"]
+[ext_resource type="Script" path="res://scripts/core/status_effects/StatusEffectHandler.cs" id="12_mrq5l"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iy4jf"]
 cull_mode = 2
@@ -94,6 +95,9 @@ limit_right = 1145
 limit_bottom = 560
 position_smoothing_speed = 8.0
 script = ExtResource("11_33rcg")
+
+[node name="StatusEffectHandler" type="Node2D" parent="."]
+script = ExtResource("12_mrq5l")
 
 [connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
 [connection signal="body_shape_entered" from="TerrainDetector" to="TerrainDetector" method="_on_body_shape_entered"]

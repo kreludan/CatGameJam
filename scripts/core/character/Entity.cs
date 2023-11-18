@@ -15,13 +15,14 @@ public partial class Entity : CharacterBody2D
 	public Gun GunReference { get; private set; }
 	public Hitbox HitboxReference { get; private set; }
 	public Sprite2D SpriteRef { get; private set; }
+	public StatusEffectHandler SeHandler { get; set; }
 	
 	private int _collisionCount;
 	private int _maxCollisions = 1;
 
 	private int _invulFrames = 150;
 	private double _invulTimer;
-	protected GameplayConstants.CollisionLayer BaseCollisionLayer;
+	public GameplayConstants.CollisionLayer BaseCollisionLayer;
 	private GameplayConstants.CollisionLayer _currentLayer;
 
 	private AnimationPlayer _animationPlayer;
@@ -39,12 +40,6 @@ public partial class Entity : CharacterBody2D
 			GD.Print(Name + " is null");
 		}
 		HitboxReference = GetNode<Hitbox>("Hitbox");
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		HandleInvulTimer(delta);
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -80,36 +75,8 @@ public partial class Entity : CharacterBody2D
 		SetPhysicsProcess(false);
 		Hide();
 	}
-	
-	private void HandleInvulTimer(double delta)
-	{
-		if (_invulTimer >= 0)
-		{
-			_invulTimer -= delta * Engine.GetFramesPerSecond();
-			_collisionCount = 0;
-			//GD.Print("timer: " + invulTimer);
-		}
-		else
-		{
-			if (_isInvulnerable)
-			{
-				_isInvulnerable = false;
-				GD.Print("setting invul to false");
-				SetCollisionLayerAndMask(BaseCollisionLayer, GameplayConstants.CollisionLayer.Invulnerable);
-			}
-		}
-	}
-	
-	private void SetInvulnerable()
-	{
-		//GD.Print("Set collision now");
-		SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Invulnerable, BaseCollisionLayer);
-		_invulTimer = _invulFrames;
-		_isInvulnerable = true;
-		GD.Print("Setting invul to true");
-	}
-	
-	protected void SetCollisionLayerAndMask(GameplayConstants.CollisionLayer collisionLayerTo,
+
+	public void SetCollisionLayerAndMask(GameplayConstants.CollisionLayer collisionLayerTo,
 		GameplayConstants.CollisionLayer  collisionLayerFrom = GameplayConstants.CollisionLayer.None)
 	{
 		// If we're changing the collision layer from a pre-existing one, we need to remove the old layer and mask
@@ -128,7 +95,7 @@ public partial class Entity : CharacterBody2D
 		if (layer == GameplayConstants.CollisionLayer.None) return;
         
 		SetCollisionLayerValue((int)layer, isActive);
-		GD.Print("setting entity " + Name + "to layer " + layer + " to activity" + isActive);
+		//GD.Print("setting entity " + Name + "to layer " + layer + " to activity" + isActive);
 		foreach (GameplayConstants.CollisionLayer mask in GameplayConstants.GetCollisionMasksPerLayer(layer))
 		{
 			SetCollisionMaskValue((int)mask, isActive);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public partial class GameplayConstants
 {
+	// enums
 	public static readonly StringName HandleCollisionString = new("HandleCollision");
 	public enum CharacterType{Player, Enemy}
 	public enum BulletType{BaseBullet, NotBaseBullet}
@@ -43,14 +44,11 @@ public partial class GameplayConstants
 		{ CollisionLayer.NonPassableTerrain, CollisionLayer.Player };
 	// Invulnerable characters scan only for non-passable terrain.
 	private static readonly List<CollisionLayer> InvulnerableMask = new(){ CollisionLayer.NonPassableTerrain };
-
 	public static List<CollisionLayer> GetCollisionMasksPerLayer(CollisionLayer layer)
 	{
 		if(!CollisionMasksPerLayer.ContainsKey(layer)) return new List<CollisionLayer>();
 		return CollisionMasksPerLayer[layer];
 	}
-	
-	
 	private static readonly Dictionary<CollisionLayer, List<CollisionLayer>> CollisionMasksPerLayer =
 		new()
 		{
@@ -61,6 +59,6 @@ public partial class GameplayConstants
 			[CollisionLayer.Invulnerable] = InvulnerableMask
 		};
 	
-	// bullet scene references
+	// scene & asset references
 	public static readonly PackedScene BaseBulletScene = GD.Load<PackedScene>("res://assets/scenes/base_bullet.tscn");
 }
