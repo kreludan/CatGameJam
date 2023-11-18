@@ -11,11 +11,11 @@ public partial class CharacterController : Node2D
 
     private bool _dodgePressed;
     private float _initialDodgeSpeed = 1;
-    private float _maxDodgeSpeed = 2.5f;
+    private float _maxDodgeSpeed = 3f;
     private float _currentDodgeSpeed = 1;
     private const float DodgeDecaySpeed = 8f;
-    private float _dodgeCooldown = 1.5f; // Set your desired cooldown time
-    private float _dodgeTimer = 0;
+    private float _dodgeCooldown = 1.2f; 
+    private float _dodgeTimer;
 
     public override void _Ready()
     {

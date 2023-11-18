@@ -1,36 +1,26 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 public partial class Gun : Node2D
 {
 	[Export]
 	public float OwnerDistanceConstant;
-
 	[Export] 
 	private double _fireRate;
 	private Timer _fireTimer;
-	
 	public Entity GunOwner;
-	
 	public Vector2 BulletDirection { get; set; }
-	
 	public bool IsFiring { get; set; }
-	
 	public GameplayConstants.BulletType LoadedBullet;
-
-	
 	private readonly Queue<BaseBullet> _bulletPool = new();
-	private const int BulletPoolSize = 1;
-	
+	private const int BulletPoolSize = 50;
 	private Node2D _bulletSpawnPoint;
 	private Node2D _bulletNodeContainer;
 	
 	public override void _Ready()
 	{
 		_bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
-		_bulletNodeContainer = (Node2D) GetTree().GetNodesInGroup("PlayerBulletPool")[0];
+		_bulletNodeContainer = (Node2D)GetTree().GetNodesInGroup("PlayerBulletPool")[0];
 		GunOwner = Owner as Entity;
 		SetFireTimer();
 		InitializeBulletPool();

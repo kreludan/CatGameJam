@@ -4,6 +4,14 @@ public partial class Enemy : Entity
 {
     private Vector2 _previousVelocity = Vector2.Zero;
 
+    public override void _Ready()
+    {
+        base._Ready();
+        CharacterType = GameplayConstants.CharacterType.Enemy;
+        BaseCollisionLayer = GameplayConstants.CollisionLayer.Enemies;
+        SetCollisionLayerAndMask(BaseCollisionLayer);
+    }
+    
     public override void _Process(double delta)
     {
         if ((int)Velocity.Y == (int)_previousVelocity.Y) return;
@@ -17,8 +25,6 @@ public partial class Enemy : Entity
             case > 0:
                 GD.Print("flying down");
                 PlayAnimation("fly_down");
-                break;
-            default:
                 break;
         }
         _previousVelocity = Velocity;

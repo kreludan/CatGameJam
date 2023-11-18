@@ -29,7 +29,6 @@ public partial class Health : Node2D
     {
         if (_currentLives <= 0)
         {
-            //Owner.QueueFree();
             Node2D ownerNode = Owner as Node2D;
             ownerNode?.Hide();
             ownerNode?.SetProcess(false);

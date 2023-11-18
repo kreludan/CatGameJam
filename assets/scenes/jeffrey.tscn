@@ -67,7 +67,7 @@ StatusEffect = 5
 
 [node name="CharacterController" type="Node2D" parent="."]
 script = ExtResource("1_5eiy8")
-_speed = 200.0
+_speed = 130.0
 
 [node name="CollisionEffectHandler" type="Node2D" parent="."]
 script = ExtResource("6_y4ge3")

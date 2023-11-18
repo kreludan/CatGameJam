@@ -14,6 +14,7 @@ public partial class Entity : CharacterBody2D
 	public CollisionEffectHandler CollisionEffectHandlerReference { get; private set; }
 	public Gun GunReference { get; private set; }
 	public Hitbox HitboxReference { get; private set; }
+	public Sprite2D SpriteRef { get; private set; }
 	
 	private int _collisionCount;
 	private int _maxCollisions = 1;
@@ -29,6 +30,7 @@ public partial class Entity : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		SpriteRef = GetNode<Sprite2D>("Sprite");
 		HealthReference = GetNode<Health>("Health");
 		_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
 		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");

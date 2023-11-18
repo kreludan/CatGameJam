@@ -1,11 +1,10 @@
-using System.Numerics;
 using Godot;
 using Vector2 = Godot.Vector2;
 
 public partial class BatFSM : EnemyFSM
 {
 	private const float PatrolSpeed = 100f;
-	private const float ChaseRange = 350f;
+	private const float ChaseRange = 250f;
 	private const float ChaseSpeed = 200f;
 	private int _chaseChangeFrequency = 100;
 	private Vector2 _currentChaseDirection;
@@ -74,13 +73,12 @@ public partial class BatFSM : EnemyFSM
 		// if (!IsWithinPatrolArea(Position))
 		// {
 		// 	// Calculate the direction vector towards the player
-		// 	Vector2 playerDirection = (Player.Position - Position).Normalized();
+		// 	Vector2 playerDirection = (PlayerRef.Position - Position).Normalized();
 		// 	// Set the velocity to move towards the player
-		// 	Velocity = playerDirection * PatrolSpeed;
-		// 	GD.Print("Velocity: " + Velocity);
+		// 	EntityRef.Velocity = playerDirection * PatrolSpeed;
+		// 	GD.Print("Velocity: " + EntityRef.Velocity);
 		// }
 	}
-
 
 	// Check if the position is within the specified patrol area
 	private bool IsWithinPatrolArea(Vector2 position)
