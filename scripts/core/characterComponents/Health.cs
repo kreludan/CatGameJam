@@ -15,9 +15,11 @@ public partial class Health : Node2D
     private Material _spriteMat;
     [Export]
     private bool _cameraShakeOnDamage;
+    private Entity _entity;
     
     public override void _Ready()
     {
+        _entity = Owner as Entity;
         _currentLives = _maxLives;
         _sprite = Owner.GetNode<Sprite2D>("Sprite");
         _spriteMat = _sprite.Material;
@@ -34,18 +36,31 @@ public partial class Health : Node2D
             ownerNode?.SetProcess(false);
         }
     }
-    
-    public void TakeDamage(int damage)
+
+    public void HandleDamage(int damage)
     {
+        switch (damage)
+        {
+            case > 0:
+                TakeDamage(damage);
+                break;
+            case < 0:
+                HealDamage(damage);
+                break;
+        }
+    }
+    
+    private void TakeDamage(int damage)
+    {
+        if (damage <= 0) return;
         if (!_damageCooldownTimer.IsStopped()) return;
         
         _currentLives -= damage;
         if (_currentLives <= 0)
         {
-            (Owner as Entity)?.Die();
+            _entity?.Die();
             //EmitSignal("DeathEventHandler");
         }
-
         if (_cameraShakeOnDamage)
         {
             CameraHandler.ApplyShake();
@@ -80,8 +95,10 @@ public partial class Health : Node2D
         _bonusLives = Mathf.Max(_bonusLives - bonus, 0);
     }
 
-    public void GainLife(int livesToAdd)
+    private void HealDamage(int livesToAdd)
     {
+        if (livesToAdd >= 0) return;
+        
         _currentLives = Mathf.Min(_currentLives + livesToAdd, _maxLives);
     }
 

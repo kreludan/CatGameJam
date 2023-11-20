@@ -75,6 +75,7 @@ script = ExtResource("6_y4ge3")
 
 [node name="Gun" parent="." instance=ExtResource("6_jbt05")]
 OwnerDistanceConstant = 35.0
+_fireRate = 0.6
 
 [node name="TrapHandler" type="Node2D" parent="."]
 script = ExtResource("9_6c8pw")

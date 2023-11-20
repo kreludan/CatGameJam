@@ -28,14 +28,13 @@ public partial class Entity : CharacterBody2D
 	private AnimationPlayer _animationPlayer;
 	private bool _isInvulnerable;
 	
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		SpriteRef = GetNode<Sprite2D>("Sprite");
 		HealthReference = GetNode<Health>("Health");
 		_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
 		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
-		if (CollisionEffectHandlerReference == null)
+		if (!CollisionEffectHandlerReference.IsValid())
 		{
 			GD.Print(Name + " is null");
 		}
@@ -55,14 +54,13 @@ public partial class Entity : CharacterBody2D
 	protected KinematicCollision2D HandleCollision(double delta)
 	{
 		KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
-
-		if (collision == null) return null;
+		if (!collision.IsValid()) return null;
+		
 		if (collision.GetCollider().HasMethod(GameplayConstants.HandleCollisionString))
 		{
 			if (collision.GetCollider() is Entity collidedObject)
 			{
-				//GD.Print( "I am collided with: " + collidedObject.Name);
-				CollisionEffectHandlerReference.HandleCollision(collidedObject.HitboxReference);
+				CollisionEffectHandlerReference.HandleCollision(collidedObject);
 			}
 		}
 		return collision;
@@ -81,17 +79,14 @@ public partial class Entity : CharacterBody2D
 	{
 		// If we're changing the collision layer from a pre-existing one, we need to remove the old layer and mask
 		SetCollisionLayerAndMaskForLayer(collisionLayerFrom, false);
-		
 		// Then we add the new layer and mask
 		SetCollisionLayerAndMaskForLayer(collisionLayerTo, true);
-
 		_currentLayer = collisionLayerTo;
 	}
 
 	private void SetCollisionLayerAndMaskForLayer(GameplayConstants.CollisionLayer layer, bool isActive)
 	{
 		// Case where the entity doesn't have a collision layer yet; we don't make any changes
-		
 		if (layer == GameplayConstants.CollisionLayer.None) return;
         
 		SetCollisionLayerValue((int)layer, isActive);

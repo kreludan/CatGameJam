@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://blfrda1knghje"]
 
-[ext_resource type="Script" path="res://scripts/core/characterComponents/Gun.cs" id="1_0prny"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/weaponry/Gun.cs" id="1_0prny"]
 [ext_resource type="Texture2D" uid="uid://crswnb1js5752" path="res://assets/sprites/shotgun.png" id="2_ybxxt"]
 [ext_resource type="Script" path="res://scripts/core/input/PlayerGunController.cs" id="3_7recb"]
 

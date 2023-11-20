@@ -18,7 +18,7 @@ public partial class Trap
     
     protected void ApplyDamage()
     {
-        Health?.TakeDamage(Damage);
+        Health?.HandleDamage(Damage);
         GD.Print(TrapType + " damage dealt: " + Damage);
     }
 }

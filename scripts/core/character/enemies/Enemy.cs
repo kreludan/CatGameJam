@@ -19,11 +19,9 @@ public partial class Enemy : Entity
         switch (Velocity.Y)
         {
             case < 0:
-                //GD.Print("flying up");
                 PlayAnimation("fly_up");
                 break;
             case > 0:
-                //GD.Print("flying down");
                 PlayAnimation("fly_down");
                 break;
         }

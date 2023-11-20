@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dnpxckrgvu7am"]
+[gd_scene load_steps=19 format=3 uid="uid://dnpxckrgvu7am"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Enemy.cs" id="1_twqkv"]
 [ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_n5d4m"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_wy7ig"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_ocl0k"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="5_2eydg"]
-[ext_resource type="Script" path="res://scripts/core/entityFsm/BatFSM.cs" id="7_rk83y"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/StateMachine.cs" id="8_hextr"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/bat/fsm/BatIdle.cs" id="9_fnmjd"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/bat/fsm/BatFollow.cs" id="10_c7805"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7wb6"]
 resource_local_to_scene = true
@@ -186,7 +188,14 @@ StatusEffect = 5
 [node name="CollisionEffectHandler" type="Node2D" parent="."]
 script = ExtResource("5_2eydg")
 
-[node name="BatFSM" type="Node2D" parent="."]
-script = ExtResource("7_rk83y")
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("_initialState")]
+script = ExtResource("8_hextr")
+_initialState = NodePath("Follow")
+
+[node name="Idle" type="Node2D" parent="StateMachine"]
+script = ExtResource("9_fnmjd")
+
+[node name="Follow" type="Node2D" parent="StateMachine"]
+script = ExtResource("10_c7805")
 
 [connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]

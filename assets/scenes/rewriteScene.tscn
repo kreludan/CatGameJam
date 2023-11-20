@@ -270,7 +270,7 @@ position = Vector2(239, 390)
 
 [node name="Bat3" parent="." instance=ExtResource("3_ncfij")]
 texture_filter = 1
-position = Vector2(924, 118)
+position = Vector2(823, 166)
 
 [node name="PlayerBulletPool" type="Node2D" parent="." groups=["PlayerBulletPool"]]
 
