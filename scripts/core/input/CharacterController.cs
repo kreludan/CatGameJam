@@ -8,7 +8,6 @@ public partial class CharacterController : Node2D
     private Vector2 _velocity = Vector2.Zero;
     [Export]
     private float _speed;
-
     private bool _dodgePressed;
     private float _initialDodgeSpeed = 1;
     private float _maxDodgeSpeed = 3f;
@@ -22,7 +21,7 @@ public partial class CharacterController : Node2D
     {
         _inputManager = GetNode<InputManager>("/root/InputManager");
         _entity = Owner as Entity;
-        if (_entity == null)
+        if (!_entity.IsValid())
         {
             Debug.Print(Owner.Name + " is not a character!!!");
         }
@@ -32,11 +31,12 @@ public partial class CharacterController : Node2D
     {
         HandleInput(delta);
         UpdateDodgeCooldown(delta);
+        GD.Print(_entity.Scale);
     }
 
     private void HandleInput(double delta)
     {
-        if (_entity == null) return;
+        if (!_entity.IsValid()) return;
 
         Vector2 moveDirection = _inputManager.GetMoveDirection();
         _dodgePressed = _inputManager.DodgePressed();

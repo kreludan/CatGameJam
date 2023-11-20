@@ -25,7 +25,7 @@ public partial class BaseBullet : Entity
 
     public override void _PhysicsProcess(double delta)
     {
-        KinematicCollision2D collision = HandleCollision(delta);
+        KinematicCollision2D collision = HandleCollision();
         if (collision.IsValid() && Visible)
         {
             DeactivateBullet();

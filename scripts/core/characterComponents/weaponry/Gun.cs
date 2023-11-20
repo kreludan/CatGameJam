@@ -71,21 +71,11 @@ public partial class Gun : Node2D
 	
 	private void FireBullet()
 	{
-		if (_bulletPool.Count <= 0)
-		{
-			//Debug.Print("No bullets left.");
-			return;
-		}
+		if (_bulletPool.Count <= 0) return;
 		
 		BaseBullet bullet = _bulletPool.Dequeue();
-
-		if (bullet == null)
-		{
-			//Debug.Print("Dequeued null bullet from the queue.");
-			return;
-		}
+		if (!bullet.IsValid()) return;
 		
-		//Debug.Print("Dequeued bullet. " + _bulletPool.Count + " bullets left.");
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 		bullet.ActivateBullet();
 		bullet.SetDirection(BulletDirection.Normalized());
@@ -95,6 +85,5 @@ public partial class Gun : Node2D
 	{
 		bullet.GlobalPosition = _bulletSpawnPoint.GlobalPosition;
 		_bulletPool.Enqueue(bullet);
-		//Debug.Print("Requeueing bullet. " + _bulletPool.Count + " bullets left.");
 	}
 }

@@ -43,7 +43,7 @@ public partial class Entity : CharacterBody2D
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		HandleCollision(delta);
+		HandleCollision();
 	}
 
 	public void PlayAnimation(string animationName)
@@ -51,11 +51,12 @@ public partial class Entity : CharacterBody2D
 		_animationPlayer.Play(animationName);
 	}
 
-	protected KinematicCollision2D HandleCollision(double delta)
+	protected KinematicCollision2D HandleCollision()
 	{
-		KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
+		MoveAndSlide();
+		KinematicCollision2D collision = GetLastSlideCollision();
 		if (!collision.IsValid()) return null;
-		
+
 		if (collision.GetCollider().HasMethod(GameplayConstants.HandleCollisionString))
 		{
 			if (collision.GetCollider() is Entity collidedObject)

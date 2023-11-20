@@ -1,6 +1,3 @@
-using Godot;
-using System;
-
 public partial class Player : Entity
 {
 	public override void _Ready()
