@@ -19,6 +19,5 @@ public partial class PrismGun : Gun
         HandleAiFiring();
         BulletDirection = _upLeft;
         HandleAiFiring();
-        StartTimer();
     }
 }

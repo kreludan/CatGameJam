@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://ctviea0ydqqbw"]
+[gd_scene load_steps=13 format=3 uid="uid://ctviea0ydqqbw"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Enemy.cs" id="1_kk60k"]
-[ext_resource type="Texture2D" uid="uid://b7ty5cq2a4say" path="res://assets/sprites/enemies/prism/Prism.png" id="7_x5xxw"]
+[ext_resource type="Texture2D" uid="uid://bt3f36u253t84" path="res://assets/sprites/enemies/prism/Prism.png" id="7_x5xxw"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="7_ym4rf"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="8_2swxl"]
 [ext_resource type="Script" path="res://scripts/core/character/enemies/bat/PrismGun.cs" id="8_uba6a"]
@@ -31,7 +31,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_ataoh"]
 resource_name = "attack"
-length = 1.60001
+length = 1.6
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -40,18 +40,30 @@ tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.937325, 0.98727, 1.03069, 1.07846, 1.12405, 1.17182, 1.21959, 1.26736, 1.3173, 1.36289, 1.41284, 1.45626, 1.50402),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 0]
+"values": [0, 1, 2, 3, 4, 0, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 24, 25]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Gun")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"Shoot"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_srt4j"]
 _data = {
 "attack": SubResource("Animation_ataoh")
 }
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5xoyx"]
 
 [node name="Prism" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(810, 166)
@@ -63,16 +75,14 @@ script = ExtResource("1_kk60k")
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("7_x5xxw")
-hframes = 6
+hframes = 13
+vframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 libraries = {
 "": SubResource("AnimationLibrary_t8u0k"),
 "Prism": SubResource("AnimationLibrary_srt4j")
 }
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_5xoyx")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("7_ym4rf")
@@ -103,10 +113,4 @@ _fireRate = 0.1
 
 [node name="BulletSpawnPoint" type="Node2D" parent="Gun"]
 
-[node name="FireTimer" type="Timer" parent="Gun"]
-process_callback = 0
-wait_time = 1.5
-one_shot = true
-
 [connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
-[connection signal="timeout" from="Gun/FireTimer" to="Gun" method="Shoot"]
