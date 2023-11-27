@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg057aiiko6dw"
-path="res://.godot/imported/TorchMask.png-9a475915ac805cb03044c3e82291b747.ctex"
+uid="uid://crswnb1js5752"
+path="res://.godot/imported/shotgun.png-123b098d135d8f157e92be2e46d89c83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/TorchMask.png"
-dest_files=["res://.godot/imported/TorchMask.png-9a475915ac805cb03044c3e82291b747.ctex"]
+source_file="res://assets/sprites/temp/shotgun.png"
+dest_files=["res://.godot/imported/shotgun.png-123b098d135d8f157e92be2e46d89c83.ctex"]
 
 [params]
 

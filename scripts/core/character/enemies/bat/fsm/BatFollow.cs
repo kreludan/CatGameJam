@@ -3,38 +3,48 @@ using Godot;
 public partial class BatFollow : EnemyState
 {
     private float _moveSpeed = 80f;
-    private float _enemyFollowRange = 225f;
+    private float _enemyFollowRange = 250f;
     private float _maxDeviationAngle = 45f;
     private float _deviationUpdateInterval = 0.5f;
     private float _timeSinceLastUpdate;
 
-    public override void Enter() { }
-    
-    public override void PhysicsUpdate(float delta)
+    public override void Enter()
     {
-        Vector2 targetDirection = PlayerDirection.Normalized();
+        base.Enter();
+        CurrentState = this;
+        Nav.DebugPathCustomColor = Colors.Red;
+    }
 
-        _timeSinceLastUpdate += delta;
-        if (_timeSinceLastUpdate >= _deviationUpdateInterval)
-        {
-            float deviationAngle = Mathf.DegToRad(_maxDeviationAngle);
-            float randomDeviation = Rng.RandfRange(-deviationAngle, deviationAngle);
-            float cosRandomDeviation = Mathf.Cos(randomDeviation);
-            float sinRandomDeviation = Mathf.Sin(randomDeviation);
+    public override void Exit()
+    {
+        base.Exit();
+        CurrentState = null;
+    }
 
-            float newDirX = targetDirection.X * cosRandomDeviation - targetDirection.Y * sinRandomDeviation;
-            float newDirY = targetDirection.X * sinRandomDeviation + targetDirection.Y * cosRandomDeviation;
-
-            Vector2 randomizedDirection = new(newDirX, newDirY);
-
-            Enemy.Velocity = randomizedDirection.Normalized() * _moveSpeed;
-
-            _timeSinceLastUpdate = 0f;
-        }
-
+    public override void Update(float delta)
+    {
+        base.Update(delta);
         if (PlayerDirection.Length() > _enemyFollowRange)
         {
+            GD.Print("Transition to IDLE");
             EmitSignal(nameof(Transitioned), this, "idle");
         }
+    }
+
+    public override void PhysicsUpdate(float delta)
+    {
+        base.PhysicsUpdate(delta);
+        //GD.Print(Nav.GetNextPathPosition());
+        Vector2 velocity = ToLocal(Nav.GetNextPathPosition()).Normalized() * _moveSpeed;
+        SetVelocityTarget(velocity);
+    }
+    
+    public void _on_nav_timer_timeout()
+    {
+        if (CurrentState != this) return;
+        
+        GD.Print("Make path to player");
+        FirstPathMade = true;
+        MakePathToPlayer();
     }
 }

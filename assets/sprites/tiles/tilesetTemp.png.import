@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blm4tvus3i5sb"
-path="res://.godot/imported/whiteCircle.png-b330d69374704cc736c65abcb9f44824.ctex"
+uid="uid://bc45adt0theee"
+path="res://.godot/imported/tilesetTemp.png-fbd683a5795c628e91a9730d607c4134.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/whiteCircle.png"
-dest_files=["res://.godot/imported/whiteCircle.png-b330d69374704cc736c65abcb9f44824.ctex"]
+source_file="res://assets/sprites/tiles/tilesetTemp.png"
+dest_files=["res://.godot/imported/tilesetTemp.png-fbd683a5795c628e91a9730d607c4134.ctex"]
 
 [params]
 

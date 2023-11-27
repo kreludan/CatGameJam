@@ -83,6 +83,10 @@ dodge={
 2d_physics/layer_21="DeactivatedBullets"
 2d_physics/layer_22="Delete"
 
+[navigation]
+
+2d/default_edge_connection_margin=32
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

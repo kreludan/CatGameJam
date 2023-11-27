@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://yq3oyf5o8kqw"
-path="res://.godot/imported/Pyramid1Tiles.png-8f3878f1337fb5015ff871a749e55d53.ctex"
+path="res://.godot/imported/Pyramid1Tiles.png-2ff36d264c49b9e294a964d5ba86a816.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/pyramid1/Pyramid1Tiles.png"
-dest_files=["res://.godot/imported/Pyramid1Tiles.png-8f3878f1337fb5015ff871a749e55d53.ctex"]
+source_file="res://assets/sprites/tiles/pyramid1/Pyramid1Tiles.png"
+dest_files=["res://.godot/imported/Pyramid1Tiles.png-2ff36d264c49b9e294a964d5ba86a816.ctex"]
 
 [params]
 

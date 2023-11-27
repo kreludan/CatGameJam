@@ -6,10 +6,14 @@ public partial class EnemyState : State
     protected CharacterBody2D Enemy;
     protected Vector2 PlayerDirection;
     protected RandomNumberGenerator Rng = new();
+    [Export]
+    protected NavigationAgent2D Nav;
+    protected bool FirstPathMade;
+    protected State CurrentState;
 
-    public override void _Ready()
+    public override void Enter()
     {
-        base._Ready();
+        base.Enter();
         if (!Player.IsValid())
         {
             Player =(CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
@@ -20,9 +24,34 @@ public partial class EnemyState : State
         }
     }
 
-    public override void _Process(double delta)
+    public override void Update(float delta)
     {
+        base.Update(delta);
+        if (!Player.IsValid() || !Enemy.IsValid()) return;
+        
         PlayerDirection = Player.GlobalPosition - Enemy.GlobalPosition;
-        base._Process(delta);
+    }
+
+    protected void SetVelocityTarget(Vector2 velocity)
+    {
+        if (!Enemy.IsValid())
+        {
+            Enemy = Owner as CharacterBody2D;
+        }
+        Enemy.Velocity = velocity;
+    }
+
+    public void MakePathToPlayer()
+    {
+        if (!Player.IsValid())
+        {
+            Player =(CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
+        }
+        Nav.TargetPosition = Player.GlobalPosition;
+    }
+
+    public void MakePathToLocation(Vector2 pathPosition)
+    {
+        Nav.TargetPosition = pathPosition;
     }
 }

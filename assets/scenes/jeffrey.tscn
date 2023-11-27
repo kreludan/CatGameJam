@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://scripts/core/character/player/Player.cs" id="1_2fymu"]
 [ext_resource type="Script" path="res://scripts/core/input/CharacterController.cs" id="1_5eiy8"]
 [ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_8na64"]
-[ext_resource type="Texture2D" uid="uid://bdictjsdaviy" path="res://assets/sprites/Cat.png" id="2_tasp7"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="3_0vif3"]
+[ext_resource type="Texture2D" uid="uid://bdictjsdaviy" path="res://assets/sprites/temp/Cat.png" id="3_c362f"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="4_qnpga"]
 [ext_resource type="PackedScene" uid="uid://blfrda1knghje" path="res://assets/scenes/gun.tscn" id="6_jbt05"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="6_y4ge3"]
@@ -25,16 +25,18 @@ shader_parameter/g = 0.0
 shader_parameter/b = 0.0
 shader_parameter/mix_color = 0.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ijq5p"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_h7ugs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvg68"]
 size = Vector2(276, 96)
 
 [node name="Jeffrey" type="CharacterBody2D" groups=["Player"]]
-position = Vector2(240, 338)
 scale = Vector2(0.1, 0.1)
 collision_layer = 0
 collision_mask = 0
+motion_mode = 1
+wall_min_slide_angle = 0.0
+safe_margin = 0.001
 script = ExtResource("1_2fymu")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
@@ -45,14 +47,14 @@ occluder = SubResource("OccluderPolygon2D_iy4jf")
 texture_filter = 1
 material = SubResource("ShaderMaterial_7hq58")
 scale = Vector2(20.415, 20.415)
-texture = ExtResource("2_tasp7")
+texture = ExtResource("3_c362f")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 100.95)
-scale = Vector2(12.655, 7.08)
-shape = SubResource("CapsuleShape2D_ijq5p")
+position = Vector2(-10, 110)
+scale = Vector2(11.315, 11.315)
+shape = SubResource("CircleShape2D_h7ugs")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_0vif3")
@@ -90,10 +92,10 @@ shape = SubResource("RectangleShape2D_lvg68")
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(2.5, 2.5)
 zoom = Vector2(1.6, 1.6)
-limit_left = 90
-limit_top = -40
-limit_right = 1145
-limit_bottom = 560
+limit_left = -570
+limit_top = -280
+limit_right = 470
+limit_bottom = 315
 position_smoothing_speed = 8.0
 script = ExtResource("11_33rcg")
 

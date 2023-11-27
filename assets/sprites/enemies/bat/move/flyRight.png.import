@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdictjsdaviy"
-path="res://.godot/imported/Cat.png-736dbd782805f705559b9d0aaeb43292.ctex"
+uid="uid://gxh3ppwt6uuu"
+path="res://.godot/imported/flyRight.png-91cc75f6b771033c27383f5c3857461c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Cat.png"
-dest_files=["res://.godot/imported/Cat.png-736dbd782805f705559b9d0aaeb43292.ctex"]
+source_file="res://assets/sprites/enemies/bat/move/flyRight.png"
+dest_files=["res://.godot/imported/flyRight.png-91cc75f6b771033c27383f5c3857461c.ctex"]
 
 [params]
 

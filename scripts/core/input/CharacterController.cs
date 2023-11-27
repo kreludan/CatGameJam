@@ -5,7 +5,6 @@ public partial class CharacterController : Node2D
 {
     private InputManager _inputManager;
     private Entity _entity;
-    private Vector2 _velocity = Vector2.Zero;
     [Export]
     private float _speed;
     private bool _dodgePressed;
@@ -14,7 +13,7 @@ public partial class CharacterController : Node2D
     private float _currentDodgeSpeed = 1;
     private const float DodgeDecaySpeed = 8f;
     private float _dodgeCooldown = 1.2f;
-    private float _invulTime = 0.075f;
+    private float _invulTime = 0.1f;
     private float _dodgeTimer;
 
     public override void _Ready()
@@ -31,7 +30,6 @@ public partial class CharacterController : Node2D
     {
         HandleInput(delta);
         UpdateDodgeCooldown(delta);
-        GD.Print(_entity.Scale);
     }
 
     private void HandleInput(double delta)

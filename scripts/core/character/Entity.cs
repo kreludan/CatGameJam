@@ -75,8 +75,7 @@ public partial class Entity : CharacterBody2D
 		Hide();
 	}
 
-	public void SetCollisionLayerAndMask(GameplayConstants.CollisionLayer collisionLayerTo,
-		GameplayConstants.CollisionLayer  collisionLayerFrom = GameplayConstants.CollisionLayer.None)
+	public void SetCollisionLayerAndMask(GameplayConstants.CollisionLayer collisionLayerTo, GameplayConstants.CollisionLayer  collisionLayerFrom = GameplayConstants.CollisionLayer.None)
 	{
 		// If we're changing the collision layer from a pre-existing one, we need to remove the old layer and mask
 		SetCollisionLayerAndMaskForLayer(collisionLayerFrom, false);

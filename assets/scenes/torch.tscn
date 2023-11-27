@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvfp57wkxyb1m"]
 
-[ext_resource type="Texture2D" uid="uid://dg057aiiko6dw" path="res://assets/sprites/TorchMask.png" id="1_s5ecc"]
+[ext_resource type="Texture2D" uid="uid://dg057aiiko6dw" path="res://assets/sprites/effects/TorchMask.png" id="1_s5ecc"]
 [ext_resource type="Script" path="res://scripts/lighting/Torch.cs" id="2_ngddw"]
 
 [node name="Torch" type="PointLight2D"]

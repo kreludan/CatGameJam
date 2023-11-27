@@ -14,17 +14,19 @@ public partial class Enemy : Entity
     
     public override void _Process(double delta)
     {
-        if ((int)Velocity.Y == (int)_previousVelocity.Y) return;
-        
-        switch (Velocity.Y)
-        {
-            case < 0:
-                PlayAnimation("fly_up");
-                break;
-            case > 0:
-                PlayAnimation("fly_down");
-                break;
-        }
+        if (Velocity == _previousVelocity) return;
+
         _previousVelocity = Velocity;
+        // Assuming Velocity is a Vector2
+        if (Mathf.Abs(Velocity.X) > Mathf.Abs(Velocity.Y))
+        {
+            // Horizontal movement
+            PlayAnimation(Velocity.X > 0 ? "fly_right" : "fly_left");
+        }
+        else
+        {
+            // Vertical movement
+            PlayAnimation(Velocity.Y > 0 ? "fly_down" : "fly_up");
+        }
     }
 }
