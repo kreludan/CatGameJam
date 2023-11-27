@@ -17,7 +17,6 @@ public partial class CollisionEffectHandler : Node2D
 
     public void HandleCollision(Entity collidedEntity)
     {
-        if (!CheckIfValidCollision(collidedEntity.BaseCollisionLayer)) return;
         Debug.Print(_entity.BaseCollisionLayer + " collided with " + collidedEntity.BaseCollisionLayer);
         Hitbox myHitbox = _entity.HitboxReference;
         Health myHealth = _entity.HealthReference;
@@ -38,21 +37,6 @@ public partial class CollisionEffectHandler : Node2D
         {
             //Debug.Print("Applying status effect " + hitbox.StatusEffect + " to " + _entity.Name);
         } 
-    }
-
-    public bool CheckIfValidCollision(GameplayConstants.CollisionLayer layerCollidedWith)
-    {
-        GameplayConstants.CollisionLayer myLayer = _entity.BaseCollisionLayer;
-        List<GameplayConstants.CollisionLayer> validCollisionLayers = GameplayConstants.GetCollisionMasksPerLayer(myLayer);
-        foreach (GameplayConstants.CollisionLayer layer in validCollisionLayers)
-        {
-            if (layer == layerCollidedWith)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 	
 

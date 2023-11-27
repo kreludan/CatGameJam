@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 
@@ -67,12 +68,29 @@ public partial class Entity : CharacterBody2D
 		{
 			if (collision.GetCollider() is Entity collidedObject)
 			{
+				if (!CheckIfValidCollision(collidedObject.BaseCollisionLayer)) return null;
 				CollisionEffectHandlerReference.HandleCollision(collidedObject);
 			}
 		}
 		return collision;
 	}
 
+	public bool CheckIfValidCollision(GameplayConstants.CollisionLayer layerCollidedWith)
+	{
+		GameplayConstants.CollisionLayer myLayer = BaseCollisionLayer;
+		List<GameplayConstants.CollisionLayer> validCollisionLayers = GameplayConstants.GetCollisionMasksPerLayer(myLayer);
+		foreach (GameplayConstants.CollisionLayer layer in validCollisionLayers)
+		{
+			if (layer == layerCollidedWith)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	
 	public void Die()
 	{
 		SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Delete, _currentLayer);
