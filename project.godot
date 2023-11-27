@@ -75,6 +75,7 @@ dodge={
 
 2d_physics/layer_1="PassableTerrain"
 2d_physics/layer_2="NonPassableTerrain"
+2d_physics/layer_3="DynamicTerrain"
 2d_physics/layer_5="Player"
 2d_physics/layer_6="PlayerBullets"
 2d_physics/layer_7="Enemies"

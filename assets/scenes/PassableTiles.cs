@@ -46,7 +46,7 @@ public partial class PassableTiles : TileMap
 			GD.Print("No used cells found.");
 			return Vector2.Zero;
 		}
-		int randomIndex = GD.RandRange(0, tileCoordinates.Count);
+		int randomIndex = GD.RandRange(0, tileCoordinates.Count - 1);
 		return MapToLocal(tileCoordinates[randomIndex]);
 	}
 
@@ -58,13 +58,13 @@ public partial class PassableTiles : TileMap
 			GD.Print("No non-trap tiles found.");
 			return Vector2.Zero;
 		}
-		int randomIndex = GD.RandRange(0, nonTrapTileCoordinates.Count);
+		int randomIndex = GD.RandRange(0, nonTrapTileCoordinates.Count - 1);
 		return MapToLocal(nonTrapTileCoordinates[randomIndex]);
 	}
 
 	private bool IsTrap(Vector2I tileCoords)
 	{
 		Variant tileMask = GetCellTileData(0, tileCoords).GetCustomDataByLayerId(0);
-		return tileMask.AsInt32() == (int)GameplayConstants.TerrainType.TRAP;
+		return tileMask.AsInt32() == (int)GameplayConstants.TerrainType.Trap;
 	}
 }

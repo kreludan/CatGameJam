@@ -8,17 +8,10 @@ public partial class BatFollow : EnemyState
     private float _deviationUpdateInterval = 0.5f;
     private float _timeSinceLastUpdate;
 
-    public override void Enter()
+    public override void Enter(StateMachine stateMachine)
     {
-        base.Enter();
-        CurrentState = this;
+        base.Enter(stateMachine);
         Nav.DebugPathCustomColor = Colors.Red;
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        CurrentState = null;
     }
 
     public override void Update(float delta)
@@ -26,7 +19,6 @@ public partial class BatFollow : EnemyState
         base.Update(delta);
         if (PlayerDirection.Length() > _enemyFollowRange)
         {
-            GD.Print("Transition to IDLE");
             EmitSignal(nameof(Transitioned), this, "idle");
         }
     }
@@ -41,9 +33,9 @@ public partial class BatFollow : EnemyState
     
     public void _on_nav_timer_timeout()
     {
-        if (CurrentState != this) return;
+        if (!StateMachine.IsValid()) return;
+        if (StateMachine.CurrentState != this) return;
         
-        GD.Print("Make path to player");
         FirstPathMade = true;
         MakePathToPlayer();
     }

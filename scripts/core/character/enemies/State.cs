@@ -5,7 +5,13 @@ public partial class State : Node2D
 	[Signal]
 	public delegate void TransitionedEventHandler(State state, string newState);
 	
-	public virtual void Enter() { }
+	protected StateMachine StateMachine { get; private set; }
+	
+	public virtual void Enter(StateMachine stateMachine)
+	{
+		// Set the reference to the current state machine
+		StateMachine = stateMachine;
+	}
 	
 	public virtual void Update(float delta) { }
 

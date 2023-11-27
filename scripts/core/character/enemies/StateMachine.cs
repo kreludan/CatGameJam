@@ -5,7 +5,7 @@ public partial class StateMachine : Node2D
 {
 	[Export]
 	private State _initialState;
-	private State _currentState;
+	public State CurrentState { get; private set; }
 	private Dictionary<string, State> _states = new();
 
 	public override void _Ready()
@@ -19,32 +19,32 @@ public partial class StateMachine : Node2D
 			}
 			if (_initialState.IsValid())
 			{
-				_initialState.Enter();
-				_currentState = _initialState;
+				_initialState.Enter(this);
+				CurrentState = _initialState;
 			}
 		}
 	}
 
 	public override void _Process(double delta)
 	{
-		_currentState?.Update((float)delta);
+		CurrentState?.Update((float)delta);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		_currentState?.PhysicsUpdate((float)delta);
+		CurrentState?.PhysicsUpdate((float)delta);
 	}
 
 	public void OnChildTransition(State state, string newState)
 	{
-		if (state != _currentState) return;
+		if (state != CurrentState) return;
 
 		State nextState = _states[newState.ToLower()];
 		if (!nextState.IsValid()) return;
 
-		_currentState?.Exit();
-		nextState.Enter();
-		_currentState = nextState;
+		CurrentState?.Exit();
+		nextState.Enter(this);
+		CurrentState = nextState;
 	}
 	
 	// Disconnect the signal when the node is about to be removed from the scene.

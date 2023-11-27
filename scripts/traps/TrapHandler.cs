@@ -16,8 +16,8 @@ public partial class TrapHandler : Node2D
 		_parent = Owner as Entity;
 		_terrainDetector = Owner.GetNode<TerrainDetector>("TerrainDetector");
 		// Pre-load possible traps
-		_holeTrap = new HoleTrap(_parent, GameplayConstants.TrapType.HOLE);
-		_spikeTrap = new SpikeTrap(_parent, GameplayConstants.TrapType.SPIKES);
+		_holeTrap = new HoleTrap(_parent, GameplayConstants.TrapType.Hole);
+		_spikeTrap = new SpikeTrap(_parent, GameplayConstants.TrapType.Spikes);
 		_possibleTraps.Add(_holeTrap);
 		_possibleTraps.Add(_spikeTrap);
 	}
@@ -42,10 +42,10 @@ public partial class TrapHandler : Node2D
 	{
 		switch ((GameplayConstants.TrapType)trapId)
 		{
-			case GameplayConstants.TrapType.HOLE:
+			case GameplayConstants.TrapType.Hole:
 				_holeTrap.Activate();
 				break;
-			case GameplayConstants.TrapType.SPIKES:
+			case GameplayConstants.TrapType.Spikes:
 				_spikeTrap.Activate();
 				break;
 		}

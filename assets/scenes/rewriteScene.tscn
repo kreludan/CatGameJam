@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bb6nrxt53460t" path="res://assets/scenes/rooms/room_1.tscn" id="1_snqeh"]
 [ext_resource type="PackedScene" uid="uid://lghleh2af0vl" path="res://assets/scenes/characters/jeffrey.tscn" id="2_n5qwv"]
-[ext_resource type="PackedScene" uid="uid://ctviea0ydqqbw" path="res://assets/scenes/characters/prism.tscn" id="3_0vqvj"]
+[ext_resource type="PackedScene" uid="uid://dc2usjyxq8tly" path="res://assets/scenes/characters/prism.tscn" id="3_0vqvj"]
 [ext_resource type="PackedScene" uid="uid://dnpxckrgvu7am" path="res://assets/scenes/characters/bat.tscn" id="3_ncfij"]
 [ext_resource type="Texture2D" uid="uid://dg057aiiko6dw" path="res://assets/sprites/effects/TorchMask.png" id="5_clrch"]
 [ext_resource type="PackedScene" uid="uid://bvfp57wkxyb1m" path="res://assets/scenes/torch.tscn" id="6_p3jij"]

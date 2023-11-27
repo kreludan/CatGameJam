@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://dnpxckrgvu7am"]
 
-[ext_resource type="Script" path="res://scripts/core/character/enemies/Enemy.cs" id="1_twqkv"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/EnemyPassable.cs" id="1_7sgrl"]
 [ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_n5d4m"]
 [ext_resource type="Texture2D" uid="uid://drxsvglgb5lgl" path="res://assets/sprites/enemies/bat/move/flyUp.png" id="3_qbc02"]
 [ext_resource type="Texture2D" uid="uid://dikelfdomelsi" path="res://assets/sprites/enemies/bat/move/flyDown.png" id="3_wg5e3"]
@@ -181,7 +181,7 @@ position = Vector2(810, 166)
 scale = Vector2(1.5, 1.5)
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("1_twqkv")
+script = ExtResource("1_7sgrl")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1

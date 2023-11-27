@@ -21,10 +21,8 @@ public partial class Gun : Node2D
 	public void Initialize()
 	{
 		_bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
-		//_bulletNodeContainer = (Node2D)GetTree().GetNodesInGroup("PlayerBulletPool")[0];
 
 		GunOwner = Owner as Entity;
-		//Name = GunOwner?.Name + "Gun";
 		CreateBulletPool();
 		InitializeBulletPool();
 		SetFireTimer();
@@ -33,7 +31,7 @@ public partial class Gun : Node2D
 	private void CreateBulletPool()
 	{
 		_bulletNodeContainer = GetNode("/root/RewriteScene/BulletPool") as Node2D;
-		Node2D bulletPool = new Node2D();
+		Node2D bulletPool = new();
 		bulletPool.Name = new StringName(GunOwner.Name + "GunBulletPool");
 		_bulletNodeContainer?.AddChild(bulletPool);
 		_bulletPoolContainer = bulletPool;
@@ -43,6 +41,7 @@ public partial class Gun : Node2D
 	{
 		_fireTimer = GetNodeOrNull<Timer>("FireTimer");
 		if (!_fireTimer.IsValid()) return;
+		
 		_fireTimer.WaitTime = _fireRate;
 		_fireTimer.OneShot = true; 
 	}
@@ -70,7 +69,6 @@ public partial class Gun : Node2D
 			CreateNewBullet();
 			return;
 		}
-		GD.Print("Start timer");
 		FireBullet();
 		_fireTimer.Start();
 	}

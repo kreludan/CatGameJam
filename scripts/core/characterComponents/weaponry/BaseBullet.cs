@@ -5,9 +5,7 @@ public partial class BaseBullet : Entity
     [Export]
     private float _speed;
     private Gun _ownerGun;
-    private const GameplayConstants.CollisionLayer DeactivatedBulletLayer =
-        GameplayConstants.CollisionLayer.DeactivatedBullets;
-
+    private const GameplayConstants.CollisionLayer DeactivatedBulletLayer = GameplayConstants.CollisionLayer.DeactivatedBullets;
     
     public virtual void InitializeFields(Gun ownerGun)
     {
@@ -44,6 +42,7 @@ public partial class BaseBullet : Entity
     
     public void ActivateBullet()
     {
+        GD.Print(GetBulletLayer());
         SetCollisionLayerAndMask(GetBulletLayer(), DeactivatedBulletLayer);
         SetProcess(true);
         SetPhysicsProcess(true);

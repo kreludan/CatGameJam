@@ -41,7 +41,7 @@ public partial class TerrainDetector : Area2D
     private void CheckForTraps(TileData tileData, Vector2I tileCoords)
     {
         Variant tileMask = tileData.GetCustomDataByLayerId(0);
-        if (tileMask.AsInt32() != (int)GameplayConstants.TerrainType.TRAP) return;
+        if (tileMask.AsInt32() != (int)GameplayConstants.TerrainType.Trap) return;
         if (_entity.GetCollisionLayerValue((int)GameplayConstants.CollisionLayer.Invulnerable)) return;
         
         int trapId = tileData.GetCustomDataByLayerId(1).AsInt32();
@@ -57,7 +57,7 @@ public partial class TerrainDetector : Area2D
     private void HandleTrapExit(TileData tileData, Vector2I tileCoords)
     {
         Variant tileMask = tileData.GetCustomDataByLayerId(0);
-        if (tileMask.AsInt32() != (int)GameplayConstants.TerrainType.TRAP) return;
+        if (tileMask.AsInt32() != (int)GameplayConstants.TerrainType.Trap) return;
         
         if (_activeTraps.TryGetValue(tileCoords, out int _))
         {

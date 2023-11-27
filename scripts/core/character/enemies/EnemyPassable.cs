@@ -1,16 +1,19 @@
-using Godot;
+// An example of a passable enemy would be a flying enemy that could fly over certain terrain
 
-public partial class Enemy : Entity
+using Godot;
+using System;
+
+public partial class EnemyPassable : Entity
 {
     private Vector2 _previousVelocity = Vector2.Zero;
     [Export]
     private bool _hasMovement = true;
-
+    
     public override void _Ready()
     {
         base._Ready();
         CharacterType = GameplayConstants.CharacterType.Enemy;
-        BaseCollisionLayer = GameplayConstants.CollisionLayer.Enemies;
+        BaseCollisionLayer = GameplayConstants.CollisionLayer.EnemiesPassable;
         SetCollisionLayerAndMask(BaseCollisionLayer);
         if (GunReference.IsValid())
         {

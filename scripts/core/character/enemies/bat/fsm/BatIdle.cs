@@ -6,12 +6,11 @@ public partial class BatIdle : EnemyState
 	private float _wanderTime;
 	private float _moveSpeed = 40f;
 	private PassableTiles _tiles;
-	private bool physicsFrameHit;
+	private bool _physicsFrameHit;
 	
-	public override void Enter()
+	public override void Enter(StateMachine stateMachine)
 	{
-		base.Enter();
-		CurrentState = this;
+		base.Enter(stateMachine);
 		_tiles = GetNode("/root/RewriteScene/Room1/PassableTerrain") as PassableTiles;
 		if (!_tiles.IsValid())
 		{
@@ -35,7 +34,6 @@ public partial class BatIdle : EnemyState
 		}
 		if (PlayerDirection.Length() < 200)
 		{
-			GD.Print("Transition to follow");
 			EmitSignal(nameof(Transitioned), this, "follow");
 		}
 	}
@@ -55,13 +53,13 @@ public partial class BatIdle : EnemyState
 			}
 			else
 			{
-				if (physicsFrameHit)
+				if (_physicsFrameHit)
 				{
 					SetVelocityTarget(ToLocal(Nav.GetNextPathPosition()).Normalized() * _moveSpeed);
 				}
 				else
 				{
-					physicsFrameHit = true;
+					_physicsFrameHit = true;
 					RandomWander();
 				}
 			}
@@ -70,7 +68,6 @@ public partial class BatIdle : EnemyState
 		// Check if the player is within a certain range to transition to follow state
 		if (PlayerDirection.Length() < 200)
 		{
-			GD.Print("Transition to follow");
 			EmitSignal(nameof(Transitioned), this, "follow");
 		}
 	}
@@ -82,6 +79,5 @@ public partial class BatIdle : EnemyState
 		
 		Nav.TargetPosition = _tiles.GetRandomNonTrapTilePosition();
 		_wanderTime = Rng.RandfRange(1, 4);
-		GD.Print("Wander");
 	}
 }

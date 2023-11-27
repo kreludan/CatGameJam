@@ -9,11 +9,10 @@ public partial class EnemyState : State
     [Export]
     protected NavigationAgent2D Nav;
     protected bool FirstPathMade;
-    protected State CurrentState;
 
-    public override void Enter()
+    public override void Enter(StateMachine stateMachine)
     {
-        base.Enter();
+        base.Enter(stateMachine);
         if (!Player.IsValid())
         {
             Player =(CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
