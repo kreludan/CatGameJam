@@ -12,6 +12,11 @@ public partial class Enemy : Entity
         CharacterType = GameplayConstants.CharacterType.Enemy;
         BaseCollisionLayer = GameplayConstants.CollisionLayer.Enemies;
         SetCollisionLayerAndMask(BaseCollisionLayer);
+        if (GunReference.IsValid())
+        {
+            GD.Print("Initializing gun!");
+            GunReference.Initialize();
+        }
     }
     
     public override void _Process(double delta)

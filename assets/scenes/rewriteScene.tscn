@@ -20,6 +20,8 @@ position = Vector2(232, -74)
 [node name="Prism" parent="." instance=ExtResource("3_0vqvj")]
 position = Vector2(-150, -50)
 
+[node name="BulletPool" type="Node2D" parent="."]
+
 [node name="PlayerBulletPool" type="Node2D" parent="." groups=["PlayerBulletPool"]]
 
 [node name="Lights" type="Node2D" parent="."]

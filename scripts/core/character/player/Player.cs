@@ -7,5 +7,6 @@ public partial class Player : Entity
 		SeHandler = GetNode<StatusEffectHandler>("StatusEffectHandler");
 		BaseCollisionLayer = GameplayConstants.CollisionLayer.Player;
 		SetCollisionLayerAndMask(BaseCollisionLayer);
+		GunReference.Initialize();
 	}
 }

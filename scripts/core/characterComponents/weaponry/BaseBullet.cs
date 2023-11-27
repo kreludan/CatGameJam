@@ -12,6 +12,7 @@ public partial class BaseBullet : Entity
     public virtual void InitializeFields(Gun ownerGun)
     {
         _ownerGun = ownerGun;
+        Name = ownerGun?.GunOwner.Name + "Bullet";
         CharacterType = _ownerGun.GunOwner.CharacterType;
         BaseCollisionLayer = GetBulletLayer();
         SetCollisionLayerAndMask(BaseCollisionLayer);

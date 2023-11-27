@@ -32,6 +32,7 @@ public partial class Entity : CharacterBody2D
 	{
 		SpriteRef = GetNode<Sprite2D>("Sprite");
 		HealthReference = GetNode<Health>("Health");
+		GunReference = GetNodeOrNull<Gun>("Gun");
 		_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
 		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
 		if (!CollisionEffectHandlerReference.IsValid())
