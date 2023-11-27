@@ -48,6 +48,11 @@ public partial class Entity : CharacterBody2D
 
 	public void PlayAnimation(string animationName)
 	{
+		if (!_animationPlayer.IsValid())
+		{
+			GD.Print("Getting new player");
+			_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
+		}
 		_animationPlayer.Play(animationName);
 	}
 

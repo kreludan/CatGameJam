@@ -16,7 +16,7 @@ public partial class Gun : Node2D
 	private const int BulletPoolSize = 50;
 	private Node2D _bulletSpawnPoint;
 	private Node2D _bulletNodeContainer;
-	
+
 	public override void _Ready()
 	{
 		_bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
@@ -29,7 +29,7 @@ public partial class Gun : Node2D
 	private void SetFireTimer()
 	{
 		_fireTimer = GetNode<Timer>("FireTimer");
-		_fireTimer.WaitTime = _fireRate;
+		//_fireTimer.WaitTime = _fireRate;
 		_fireTimer.OneShot = true; 
 	}
 	
@@ -43,10 +43,10 @@ public partial class Gun : Node2D
 
 	public override void _Process(double delta)
 	{
-		HandleFiring();
+		HandlePlayerFiring();
 	}
 	
-	private void HandleFiring()
+	private void HandlePlayerFiring()
 	{
 		if (!IsFiring) return;
 		if (!_fireTimer.IsStopped()) return;
@@ -56,7 +56,23 @@ public partial class Gun : Node2D
 			CreateNewBullet();
 			return;
 		}
+		GD.Print("Start timer");
 		FireBullet();
+		_fireTimer.Start();
+	}
+
+	protected void HandleAiFiring()
+	{
+		if (_bulletPool.Count == 0)
+		{
+			CreateNewBullet();
+			return;
+		}
+		FireBullet();
+	}
+
+	protected void StartTimer()
+	{
 		_fireTimer.Start();
 	}
 	
@@ -69,7 +85,7 @@ public partial class Gun : Node2D
 		bullet?.DeactivateBullet();
 	}
 	
-	private void FireBullet()
+	protected void FireBullet()
 	{
 		if (_bulletPool.Count <= 0) return;
 		

@@ -1,0 +1,112 @@
+[gd_scene load_steps=14 format=3 uid="uid://ctviea0ydqqbw"]
+
+[ext_resource type="Script" path="res://scripts/core/character/enemies/Enemy.cs" id="1_kk60k"]
+[ext_resource type="Texture2D" uid="uid://b7ty5cq2a4say" path="res://assets/sprites/enemies/prism/Prism.png" id="7_x5xxw"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="7_ym4rf"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="8_2swxl"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/bat/PrismGun.cs" id="8_uba6a"]
+[ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="9_f0iu4"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/StateMachine.cs" id="10_s6j5u"]
+[ext_resource type="Script" path="res://scripts/core/character/enemies/prism/fsm/PrismAttack.cs" id="11_sewqv"]
+
+[sub_resource type="Animation" id="Animation_p2qw3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t8u0k"]
+_data = {
+"RESET": SubResource("Animation_p2qw3")
+}
+
+[sub_resource type="Animation" id="Animation_ataoh"]
+resource_name = "attack"
+length = 1.60001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_srt4j"]
+_data = {
+"attack": SubResource("Animation_ataoh")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5xoyx"]
+
+[node name="Prism" type="CharacterBody2D" groups=["Enemy"]]
+position = Vector2(810, 166)
+scale = Vector2(1.5, 1.5)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_kk60k")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("7_x5xxw")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_t8u0k"),
+"Prism": SubResource("AnimationLibrary_srt4j")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5xoyx")
+
+[node name="Health" type="Node2D" parent="."]
+script = ExtResource("7_ym4rf")
+_maxLives = 2
+
+[node name="TakeDamageTimer" type="Timer" parent="Health"]
+wait_time = 0.25
+
+[node name="Hitbox" type="Node2D" parent="."]
+script = ExtResource("8_2swxl")
+Damage = 1
+KnockbackIntensity = 10.0
+StatusEffect = 5
+
+[node name="CollisionEffectHandler" type="Node2D" parent="."]
+script = ExtResource("9_f0iu4")
+
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("_initialState")]
+script = ExtResource("10_s6j5u")
+_initialState = NodePath("Attack")
+
+[node name="Attack" type="Node2D" parent="StateMachine"]
+script = ExtResource("11_sewqv")
+
+[node name="Gun" type="Node2D" parent="."]
+script = ExtResource("8_uba6a")
+_fireRate = 0.1
+
+[node name="BulletSpawnPoint" type="Node2D" parent="Gun"]
+
+[node name="FireTimer" type="Timer" parent="Gun"]
+process_callback = 0
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="Health/TakeDamageTimer" to="Health" method="_on_take_damage_timer_timeout"]
+[connection signal="timeout" from="Gun/FireTimer" to="Gun" method="Shoot"]

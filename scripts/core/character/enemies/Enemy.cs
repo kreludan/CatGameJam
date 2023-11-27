@@ -3,6 +3,8 @@ using Godot;
 public partial class Enemy : Entity
 {
     private Vector2 _previousVelocity = Vector2.Zero;
+    [Export]
+    private bool hasMovement = true;
 
     public override void _Ready()
     {
@@ -14,10 +16,10 @@ public partial class Enemy : Entity
     
     public override void _Process(double delta)
     {
+        if (!hasMovement) return;
         if (Velocity == _previousVelocity) return;
 
         _previousVelocity = Velocity;
-        // Assuming Velocity is a Vector2
         if (Mathf.Abs(Velocity.X) > Mathf.Abs(Velocity.Y))
         {
             // Horizontal movement
