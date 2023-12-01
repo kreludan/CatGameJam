@@ -17,6 +17,20 @@ public partial class Gun : Node2D
 	private Node2D _bulletSpawnPoint;
 	private Node2D _bulletNodeContainer;
 	private Node2D _bulletPoolContainer;
+	
+	public override void _Process(double delta)
+	{
+		HandlePlayerFiring();
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		foreach (BaseBullet bullet in _bulletPool)
+		{
+			if (!bullet.Visible) continue;
+			bullet.UpdateBulletPhysics();
+		}
+	}
 
 	public void Initialize(Entity gunOwner)
 	{
@@ -54,11 +68,6 @@ public partial class Gun : Node2D
 		}
 	}
 
-	public override void _Process(double delta)
-	{
-		HandlePlayerFiring();
-	}
-	
 	private void HandlePlayerFiring()
 	{
 		if (!IsFiring) return;

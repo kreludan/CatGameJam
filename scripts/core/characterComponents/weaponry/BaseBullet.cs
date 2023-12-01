@@ -1,11 +1,12 @@
 using Godot;
+using static GameplayConstants;
 
 public partial class BaseBullet : Entity
 {
     [Export]
     private float _speed;
     private Gun _ownerGun;
-    private const GameplayConstants.CollisionLayer DeactivatedBulletLayer = GameplayConstants.CollisionLayer.DeactivatedBullets;
+    private const CollisionLayer DeactivatedBulletLayer = GameplayConstants.CollisionLayer.DeactivatedBullets;
     
     public virtual void InitializeFields(Gun ownerGun)
     {
@@ -14,9 +15,8 @@ public partial class BaseBullet : Entity
         InitEntityType(_ownerGun.GunOwner.CharacterType, GetBulletLayer());
     }
 
-    protected override void PhysicsUpdate(float delta)
+    public void UpdateBulletPhysics()
     {
-        //base.PhysicsUpdate(delta);
         KinematicCollision2D collision = HandleCollision();
         if (collision.IsValid() && Visible)
         {
@@ -24,7 +24,7 @@ public partial class BaseBullet : Entity
             DeactivateBullet();
         }
     }
-    
+
     public virtual void SetDirection(Vector2 direction)
     {
         Velocity = direction.Normalized() * _speed;
@@ -48,9 +48,9 @@ public partial class BaseBullet : Entity
         Show();
     }
 
-    private GameplayConstants.CollisionLayer GetBulletLayer()
+    private CollisionLayer GetBulletLayer()
     {
-        return CharacterType == GameplayConstants.CharacterType.Player
+        return CharacterType == CharacterType.Player
             ? GameplayConstants.CollisionLayer.PlayerBullets
             : GameplayConstants.CollisionLayer.EnemyBullets; 
     }
