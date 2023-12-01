@@ -3,6 +3,7 @@ using Godot;
 public partial class InvulnerableSe : StatusEffect
 {
     private Entity _entity;
+    
     public override void ApplyEffect(Node2D target)
     {
         base.ApplyEffect(target);
@@ -12,18 +13,14 @@ public partial class InvulnerableSe : StatusEffect
         {
             GD.Print("ENTITY IS NULL BRUH");
         }
-        _entity?.SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Invulnerable, _entity.BaseCollisionLayer);
+        GD.Print("Setting " + target.Name + " invulnerable for " + Timer + " seconds");
+        _entity?.SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Invulnerable);
         Timer = 0;
-    }
-
-    public override void Update(float delta)
-    {
-        base.Update(delta);
     }
 
     public override void RemoveEffect()
     {
         base.RemoveEffect();
-        _entity?.SetCollisionLayerAndMask(_entity.BaseCollisionLayer, GameplayConstants.CollisionLayer.Invulnerable);
+        _entity?.SetCollisionLayerAndMask(_entity.BaseCollisionLayer);
     }
 }

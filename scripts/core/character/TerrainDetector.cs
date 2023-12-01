@@ -42,7 +42,7 @@ public partial class TerrainDetector : Area2D
     {
         Variant tileMask = tileData.GetCustomDataByLayerId(0);
         if (tileMask.AsInt32() != (int)GameplayConstants.TerrainType.Trap) return;
-        if (_entity.GetCollisionLayerValue((int)GameplayConstants.CollisionLayer.Invulnerable)) return;
+        if (_entity.GetCollisionLayerValue(GameplayConstants.GetLayerBit(GameplayConstants.CollisionLayer.Invulnerable))) return;
         
         int trapId = tileData.GetCustomDataByLayerId(1).AsInt32();
         if (!_activeTraps.ContainsKey(tileCoords))

@@ -17,13 +17,13 @@ public partial class CollisionEffectHandler : Node2D
 
     public void HandleCollision(Entity collidedEntity)
     {
-        Debug.Print(_entity.BaseCollisionLayer + " collided with " + collidedEntity.BaseCollisionLayer);
-        Hitbox myHitbox = _entity.HitboxReference;
+        //Debug.Print(_entity.BaseCollisionLayer + " collided with " + collidedEntity.BaseCollisionLayer);
+        Hitbox myHitbox = _entity.HitBoxReference;
         Health myHealth = _entity.HealthReference;
-        Hitbox collidedObjectHitbox = collidedEntity.HitboxReference;
+        Hitbox collidedObjectHitbox = collidedEntity.HitBoxReference;
         Health collidedObjectHealth = collidedEntity.HealthReference;
 		
-        //GD.Print( _entity.Name + " collided with: " + collidedObjectHitbox.Owner.Name);
+        GD.Print( _entity.Name + " collided with: " + collidedObjectHitbox.Owner.Name);
         myHealth.HandleDamage(collidedObjectHitbox.Damage);
         collidedObjectHealth.HandleDamage(myHitbox.Damage);
         if (collidedObjectHitbox.KnockbackIntensity != 0)

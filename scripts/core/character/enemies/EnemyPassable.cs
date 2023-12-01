@@ -1,42 +1,35 @@
 // An example of a passable enemy would be a flying enemy that could fly over certain terrain
 
 using Godot;
-using System;
 
 public partial class EnemyPassable : Entity
 {
+    private AnimationController _animationControllerRef;
     private Vector2 _previousVelocity = Vector2.Zero;
     [Export]
     private bool _hasMovement = true;
     
-    public override void _Ready()
+    protected override void Initialize()
     {
-        base._Ready();
-        CharacterType = GameplayConstants.CharacterType.Enemy;
-        BaseCollisionLayer = GameplayConstants.CollisionLayer.EnemiesPassable;
-        SetCollisionLayerAndMask(BaseCollisionLayer);
-        if (GunReference.IsValid())
-        {
-            GD.Print("Initializing gun!");
-            GunReference.Initialize();
-        }
+        base.Initialize();
+        _animationControllerRef = GetNode<AnimationController>("Sprite/AnimationPlayer");
+        InitEntityType(GameplayConstants.CharacterType.Enemy, GameplayConstants.CollisionLayer.EnemiesPassable);
     }
-    
-    public override void _Process(double delta)
+
+    protected override void Update(float delta)
     {
+        base.Update(delta);
         if (!_hasMovement) return;
         if (Velocity == _previousVelocity) return;
-
+        
         _previousVelocity = Velocity;
         if (Mathf.Abs(Velocity.X) > Mathf.Abs(Velocity.Y))
         {
-            // Horizontal movement
-            PlayAnimation(Velocity.X > 0 ? "fly_right" : "fly_left");
+            _animationControllerRef.PlayAnimation(Velocity.X > 0 ? "fly_right" : "fly_left");
         }
         else
         {
-            // Vertical movement
-            PlayAnimation(Velocity.Y > 0 ? "fly_down" : "fly_up");
+            _animationControllerRef.PlayAnimation(Velocity.Y > 0 ? "fly_down" : "fly_up");
         }
     }
 }

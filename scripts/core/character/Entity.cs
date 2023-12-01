@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Godot;
-
+using static GameplayConstants;
 
 public partial class Entity : CharacterBody2D
 {
@@ -10,52 +10,61 @@ public partial class Entity : CharacterBody2D
 	// Gun script
 	// Hitbox script (run into things to hurt them)
 	// Either a character controller or FSM script (handled by child class)
-	public GameplayConstants.CharacterType CharacterType;
+	public CharacterType CharacterType;
 	public Health HealthReference { get; private set; }
 	public CollisionEffectHandler CollisionEffectHandlerReference { get; private set; }
-	public Gun GunReference { get; private set; }
-	public Hitbox HitboxReference { get; private set; }
+	public Gun GunReference { get; protected set; }
+	public Hitbox HitBoxReference { get; private set; }
 	public Sprite2D SpriteRef { get; private set; }
 	public StatusEffectHandler SeHandler { get; set; }
 	
 	private int _collisionCount;
 	private int _maxCollisions = 1;
 
-	private int _invulFrames = 150;
-	private double _invulTimer;
-	public GameplayConstants.CollisionLayer BaseCollisionLayer;
-	private GameplayConstants.CollisionLayer _currentLayer;
+	private int _invulnerabilityFrames = 150;
+	private double _invulnerabilityTimer;
+	public CollisionLayer BaseCollisionLayer;
+	private CollisionLayer _currentLayer;
 
 	private AnimationPlayer _animationPlayer;
 	private bool _isInvulnerable;
-	
+
 	public override void _Ready()
+	{
+		Initialize();
+	}
+
+	public override void _Process(double delta)
+	{
+		Update((float)delta);
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		PhysicsUpdate((float)delta);
+	}
+
+	//include things every entity should have on initialization
+	protected virtual void Initialize()
 	{
 		SpriteRef = GetNode<Sprite2D>("Sprite");
 		HealthReference = GetNode<Health>("Health");
-		GunReference = GetNodeOrNull<Gun>("Gun");
-		_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
 		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
-		if (!CollisionEffectHandlerReference.IsValid())
-		{
-			GD.Print(Name + " is null");
-		}
-		HitboxReference = GetNode<Hitbox>("Hitbox");
+		HitBoxReference = GetNode<Hitbox>("Hitbox");
 	}
-	
-	public override void _PhysicsProcess(double delta)
+
+	protected virtual void Update(float delta) { }
+
+	protected virtual void PhysicsUpdate(float delta)
 	{
 		HandleCollision();
 	}
-
-	public void PlayAnimation(string animationName)
+	
+	protected void InitEntityType(CharacterType type, CollisionLayer layer)
 	{
-		if (!_animationPlayer.IsValid())
-		{
-			GD.Print("Getting new player");
-			_animationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
-		}
-		_animationPlayer.Play(animationName);
+		CharacterType = type;
+		BaseCollisionLayer = layer;
+		SetCollisionLayerAndMask(BaseCollisionLayer);
 	}
 
 	protected KinematicCollision2D HandleCollision()
@@ -64,60 +73,70 @@ public partial class Entity : CharacterBody2D
 		KinematicCollision2D collision = GetLastSlideCollision();
 		if (!collision.IsValid()) return null;
 
-		if (collision.GetCollider().HasMethod(GameplayConstants.HandleCollisionString))
+		if (collision.GetCollider().HasMethod(HandleCollisionString))
 		{
 			if (collision.GetCollider() is Entity collidedObject)
 			{
 				if (!CheckIfValidCollision(collidedObject.BaseCollisionLayer)) return null;
+				
 				CollisionEffectHandlerReference.HandleCollision(collidedObject);
 			}
 		}
 		return collision;
 	}
 
-	public bool CheckIfValidCollision(GameplayConstants.CollisionLayer layerCollidedWith)
+	private bool CheckIfValidCollision(CollisionLayer layerCollidedWith)
 	{
-		GameplayConstants.CollisionLayer myLayer = BaseCollisionLayer;
-		List<GameplayConstants.CollisionLayer> validCollisionLayers = GameplayConstants.GetCollisionMasksPerLayer(myLayer);
-		foreach (GameplayConstants.CollisionLayer layer in validCollisionLayers)
-		{
-			if (layer == layerCollidedWith)
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-	
-	
-	public void Die()
-	{
-		SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Delete, _currentLayer);
-		SetProcess(false);
-		SetPhysicsProcess(false);
-		Hide();
+		// Get the mask for the current layer
+		int myLayerMask = GetMask(BaseCollisionLayer);
+		// Get the mask for the collided layer
+		int collidedLayerMask = GetMask(layerCollidedWith);
+		// Check if the collided layer is in the valid layers for the current layer
+		return (myLayerMask & collidedLayerMask) != 0;
 	}
 
-	public void SetCollisionLayerAndMask(GameplayConstants.CollisionLayer collisionLayerTo, GameplayConstants.CollisionLayer  collisionLayerFrom = GameplayConstants.CollisionLayer.None)
+	public void SetCollisionLayerAndMask(CollisionLayer collisionLayerTo)
 	{
-		// If we're changing the collision layer from a pre-existing one, we need to remove the old layer and mask
-		SetCollisionLayerAndMaskForLayer(collisionLayerFrom, false);
-		// Then we add the new layer and mask
+		ClearAllCollisionMasks();
 		SetCollisionLayerAndMaskForLayer(collisionLayerTo, true);
 		_currentLayer = collisionLayerTo;
 	}
 
-	private void SetCollisionLayerAndMaskForLayer(GameplayConstants.CollisionLayer layer, bool isActive)
+	private void SetCollisionLayerAndMaskForLayer(CollisionLayer layer, bool isActive)
 	{
-		// Case where the entity doesn't have a collision layer yet; we don't make any changes
-		if (layer == GameplayConstants.CollisionLayer.None) return;
-        
-		SetCollisionLayerValue((int)layer, isActive);
-		//GD.Print("setting entity " + Name + "to layer " + layer + " to activity" + isActive);
-		foreach (GameplayConstants.CollisionLayer mask in GameplayConstants.GetCollisionMasksPerLayer(layer))
+		int layerBit = GetLayerBit(layer);
+		SetCollisionLayerValue(layerBit, isActive);
+		int layerBitMask = GetMask(layer);
+		SetCollisionMask(layerBitMask, isActive);
+	}
+
+	private void SetCollisionMask(int mask, bool isActive)
+	{
+		for (int i = 0; i < sizeof(int) * 8; i++)
 		{
-			SetCollisionMaskValue((int)mask, isActive);
+			int bit = 1 << i;
+			if ((mask & bit) == 0) continue;
+			//GD.Print("Setting " + Name + " to mask: " + i);
+			SetCollisionMaskValue(i, isActive);
 		}
+	}
+	
+	private void ClearAllCollisionMasks()
+	{
+		for (int i = 1; i < sizeof(int) * 8; i++)
+		{
+			int bit = 1 << i;
+			if (bit == 0) continue;
+			SetCollisionLayerValue(i, false);
+			SetCollisionMaskValue(i, false);
+		}
+	}
+
+	public void Die()
+	{
+		SetCollisionLayerAndMask(GameplayConstants.CollisionLayer.Delete);
+		SetProcess(false);
+		SetPhysicsProcess(false);
+		Hide();
 	}
 }

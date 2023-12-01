@@ -11,9 +11,18 @@ public partial class BaseBullet : Entity
     {
         _ownerGun = ownerGun;
         Name = ownerGun?.GunOwner.Name + "Bullet";
-        CharacterType = _ownerGun.GunOwner.CharacterType;
-        BaseCollisionLayer = GetBulletLayer();
-        SetCollisionLayerAndMask(BaseCollisionLayer);
+        InitEntityType(_ownerGun.GunOwner.CharacterType, GetBulletLayer());
+    }
+
+    protected override void PhysicsUpdate(float delta)
+    {
+        //base.PhysicsUpdate(delta);
+        KinematicCollision2D collision = HandleCollision();
+        if (collision.IsValid() && Visible)
+        {
+            GD.Print("Deactivate");
+            DeactivateBullet();
+        }
     }
     
     public virtual void SetDirection(Vector2 direction)
@@ -22,18 +31,9 @@ public partial class BaseBullet : Entity
         //Debug.Print("Bullet direction set to " + this.Velocity.X + ", " + this.Velocity.Y);
     }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        KinematicCollision2D collision = HandleCollision();
-        if (collision.IsValid() && Visible)
-        {
-            DeactivateBullet();
-        }
-    }
-
     public void DeactivateBullet()
     {
-        SetCollisionLayerAndMask(DeactivatedBulletLayer, GetBulletLayer());
+        SetCollisionLayerAndMask(DeactivatedBulletLayer);
         SetProcess(false);
         SetPhysicsProcess(false);
         Hide();
@@ -42,8 +42,7 @@ public partial class BaseBullet : Entity
     
     public void ActivateBullet()
     {
-        GD.Print(GetBulletLayer());
-        SetCollisionLayerAndMask(GetBulletLayer(), DeactivatedBulletLayer);
+        SetCollisionLayerAndMask(GetBulletLayer());
         SetProcess(true);
         SetPhysicsProcess(true);
         Show();

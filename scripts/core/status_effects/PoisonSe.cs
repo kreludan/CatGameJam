@@ -2,7 +2,7 @@ using Godot;
 
 public partial class PoisonSe : StatusEffect
 {
-    private float _damagePerSecond;
+    //private float _damagePerSecond;
     
     public override void ApplyEffect(Node2D target)
     {

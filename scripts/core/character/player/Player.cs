@@ -1,12 +1,15 @@
 public partial class Player : Entity
 {
-	public override void _Ready()
+	protected override void Initialize()
 	{
-		base._Ready();
-		CharacterType = GameplayConstants.CharacterType.Player;
+		base.Initialize();
 		SeHandler = GetNode<StatusEffectHandler>("StatusEffectHandler");
-		BaseCollisionLayer = GameplayConstants.CollisionLayer.Player;
-		SetCollisionLayerAndMask(BaseCollisionLayer);
-		GunReference.Initialize();
+		GunReference = GetNodeOrNull<Gun>("Gun");
+		
+		InitEntityType(GameplayConstants.CharacterType.Player, GameplayConstants.CollisionLayer.Player);
+		if (GunReference.IsValid())
+		{
+			GunReference.Initialize(this);
+		}
 	}
 }

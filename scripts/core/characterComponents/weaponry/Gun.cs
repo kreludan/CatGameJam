@@ -18,11 +18,11 @@ public partial class Gun : Node2D
 	private Node2D _bulletNodeContainer;
 	private Node2D _bulletPoolContainer;
 
-	public void Initialize()
+	public void Initialize(Entity gunOwner)
 	{
 		_bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
-
-		GunOwner = Owner as Entity;
+		GunOwner = gunOwner;
+		//GD.Print("CREATING BULLETS FOR: " + GunOwner.Name);
 		CreateBulletPool();
 		InitializeBulletPool();
 		SetFireTimer();
@@ -88,6 +88,7 @@ public partial class Gun : Node2D
 		Node2D bulletNode = (Node2D)GameplayConstants.BaseBulletScene.Instantiate();
 		_bulletPoolContainer.AddChild(bulletNode);
 		BaseBullet bullet = bulletNode as BaseBullet;
+		//GD.Print("bullet for: " + GunOwner.CharacterType);
 		bullet?.InitializeFields(this);
 		bullet?.DeactivateBullet();
 	}

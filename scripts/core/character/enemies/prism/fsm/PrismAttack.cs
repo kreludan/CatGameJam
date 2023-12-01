@@ -6,6 +6,6 @@ public partial class PrismAttack : EnemyState
 	{
 		base.Enter(stateMachine);
 		_myself = Enemy as Enemy;
-		_myself?.PlayAnimation("Prism/attack");
+		//_myself?.PlayAnimation("Prism/attack");
 	}
 }

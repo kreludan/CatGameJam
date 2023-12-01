@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dnpxckrgvu7am"]
+[gd_scene load_steps=22 format=3 uid="uid://dnpxckrgvu7am"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/EnemyPassable.cs" id="1_7sgrl"]
 [ext_resource type="Shader" path="res://assets/shaders_&_materials/EntityShader.gdshader" id="2_n5d4m"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/core/characterComponents/CollisionEffectHandler.cs" id="5_2eydg"]
 [ext_resource type="Texture2D" uid="uid://bf4jlbfra0rws" path="res://assets/sprites/enemies/bat/move/flyLeft.png" id="5_c0281"]
 [ext_resource type="Texture2D" uid="uid://gxh3ppwt6uuu" path="res://assets/sprites/enemies/bat/move/flyRight.png" id="6_u2lqp"]
+[ext_resource type="Script" path="res://scripts/core/character/animation/AnimationController.cs" id="7_pdmg2"]
 [ext_resource type="Script" path="res://scripts/core/character/enemies/StateMachine.cs" id="8_hextr"]
 [ext_resource type="Script" path="res://scripts/core/character/enemies/bat/fsm/BatIdle.cs" id="9_fnmjd"]
 [ext_resource type="Script" path="res://scripts/core/character/enemies/bat/fsm/BatFollow.cs" id="10_c7805"]
@@ -194,6 +195,7 @@ frame = 3
 libraries = {
 "": SubResource("AnimationLibrary_p3xms")
 }
+script = ExtResource("7_pdmg2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
