@@ -16,6 +16,7 @@ public partial class Entity : CharacterBody2D
 	public Hitbox HitBoxReference { get; private set; }
 	public Sprite2D SpriteRef { get; private set; }
 	public StatusEffectHandler SeHandler { get; set; }
+	public AnimationController AnimationControllerRef { get; set; }
 	
 	private int _collisionCount;
 	private int _maxCollisions = 1;
@@ -46,10 +47,18 @@ public partial class Entity : CharacterBody2D
 	//include things every entity should have on initialization
 	protected virtual void Initialize()
 	{
-		SpriteRef = GetNode<Sprite2D>("Sprite");
-		HealthReference = GetNode<Health>("Health");
-		CollisionEffectHandlerReference = GetNode<CollisionEffectHandler>("CollisionEffectHandler");
-		HitBoxReference = GetNode<Hitbox>("Hitbox");
+		SpriteRef = GetNodeOrNull<Sprite2D>("Sprite");
+		HealthReference = GetNodeOrNull<Health>("Health");
+		CollisionEffectHandlerReference = GetNodeOrNull<CollisionEffectHandler>("CollisionEffectHandler");
+		HitBoxReference = GetNodeOrNull<Hitbox>("Hitbox");
+		SeHandler = GetNodeOrNull<StatusEffectHandler>("StatusEffectHandler");
+		GunReference = GetNodeOrNull<Gun>("Gun");
+		SetAnimationController();
+	}
+
+	public void SetAnimationController()
+	{
+		AnimationControllerRef = GetNodeOrNull<AnimationController>("Sprite/AnimationPlayer");
 	}
 
 	protected virtual void Update(float delta) { }

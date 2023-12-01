@@ -4,7 +4,6 @@ using Godot;
 
 public partial class EnemyPassable : Entity
 {
-    private AnimationController _animationControllerRef;
     private Vector2 _previousVelocity = Vector2.Zero;
     [Export]
     private bool _hasMovement = true;
@@ -12,7 +11,6 @@ public partial class EnemyPassable : Entity
     protected override void Initialize()
     {
         base.Initialize();
-        _animationControllerRef = GetNode<AnimationController>("Sprite/AnimationPlayer");
         InitEntityType(GameplayConstants.CharacterType.Enemy, GameplayConstants.CollisionLayer.EnemiesPassable);
     }
 
@@ -25,11 +23,11 @@ public partial class EnemyPassable : Entity
         _previousVelocity = Velocity;
         if (Mathf.Abs(Velocity.X) > Mathf.Abs(Velocity.Y))
         {
-            _animationControllerRef.PlayAnimation(Velocity.X > 0 ? "fly_right" : "fly_left");
+            AnimationControllerRef.PlayAnimation(Velocity.X > 0 ? "fly_right" : "fly_left");
         }
         else
         {
-            _animationControllerRef.PlayAnimation(Velocity.Y > 0 ? "fly_down" : "fly_up");
+            AnimationControllerRef.PlayAnimation(Velocity.Y > 0 ? "fly_down" : "fly_up");
         }
     }
 }

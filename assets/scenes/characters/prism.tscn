@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://dc2usjyxq8tly"]
+[gd_scene load_steps=14 format=3 uid="uid://dc2usjyxq8tly"]
 
 [ext_resource type="Script" path="res://scripts/core/character/enemies/Enemy.cs" id="1_kk60k"]
+[ext_resource type="Script" path="res://scripts/core/character/animation/AnimationController.cs" id="3_ouduu"]
 [ext_resource type="Texture2D" uid="uid://bt3f36u253t84" path="res://assets/sprites/enemies/prism/Prism.png" id="7_x5xxw"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Health.cs" id="7_ym4rf"]
 [ext_resource type="Script" path="res://scripts/core/characterComponents/Hitbox.cs" id="8_2swxl"]
@@ -83,6 +84,7 @@ libraries = {
 "": SubResource("AnimationLibrary_t8u0k"),
 "Prism": SubResource("AnimationLibrary_srt4j")
 }
+script = ExtResource("3_ouduu")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("7_ym4rf")

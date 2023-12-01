@@ -8,7 +8,7 @@ public partial class BaseBullet : Entity
     private Gun _ownerGun;
     private const CollisionLayer DeactivatedBulletLayer = GameplayConstants.CollisionLayer.DeactivatedBullets;
     
-    public virtual void InitializeFields(Gun ownerGun)
+    public virtual void InitializeBullet(Gun ownerGun)
     {
         _ownerGun = ownerGun;
         Name = ownerGun?.GunOwner.Name + "Bullet";
@@ -23,6 +23,12 @@ public partial class BaseBullet : Entity
             GD.Print("Deactivate");
             DeactivateBullet();
         }
+    }
+
+    protected override void PhysicsUpdate(float delta)
+    {
+        //base.PhysicsUpdate(delta);
+        UpdateBulletPhysics();
     }
 
     public virtual void SetDirection(Vector2 direction)

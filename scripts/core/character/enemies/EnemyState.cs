@@ -15,7 +15,7 @@ public partial class EnemyState : State
         base.Enter(stateMachine);
         if (!Player.IsValid())
         {
-            Player =(CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
+            Player = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
         }
         if (!Enemy.IsValid())
         {

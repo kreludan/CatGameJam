@@ -11,25 +11,20 @@ public partial class Gun : Node2D
 	public Entity GunOwner;
 	public Vector2 BulletDirection { get; set; }
 	public bool IsFiring { get; set; }
-	public GameplayConstants.BulletType LoadedBullet;
 	private readonly Queue<BaseBullet> _bulletPool = new();
 	private const int BulletPoolSize = 50;
 	private Node2D _bulletSpawnPoint;
 	private Node2D _bulletNodeContainer;
 	private Node2D _bulletPoolContainer;
-	
-	public override void _Process(double delta)
-	{
-		HandlePlayerFiring();
-	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		foreach (BaseBullet bullet in _bulletPool)
-		{
-			if (!bullet.Visible) continue;
-			bullet.UpdateBulletPhysics();
-		}
+		// foreach (BaseBullet bullet in _bulletPool)
+		// {
+		// 	if (!bullet.Visible) continue;
+		// 	
+		// 	bullet.UpdateBulletPhysics();
+		// }
 	}
 
 	public void Initialize(Entity gunOwner)
@@ -68,7 +63,7 @@ public partial class Gun : Node2D
 		}
 	}
 
-	private void HandlePlayerFiring()
+	public void HandlePlayerFiring()
 	{
 		if (!IsFiring) return;
 		if (!_fireTimer.IsStopped()) return;
@@ -98,7 +93,7 @@ public partial class Gun : Node2D
 		_bulletPoolContainer.AddChild(bulletNode);
 		BaseBullet bullet = bulletNode as BaseBullet;
 		//GD.Print("bullet for: " + GunOwner.CharacterType);
-		bullet?.InitializeFields(this);
+		bullet?.InitializeBullet(this);
 		bullet?.DeactivateBullet();
 	}
 	

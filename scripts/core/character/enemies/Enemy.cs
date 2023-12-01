@@ -9,7 +9,6 @@ public partial class Enemy : Entity
     protected override void Initialize()
     {
         base.Initialize();
-        GunReference = GetNodeOrNull<Gun>("Gun");
         InitEntityType(GameplayConstants.CharacterType.Enemy, GameplayConstants.CollisionLayer.Enemies);
         if (GunReference.IsValid())
         {
